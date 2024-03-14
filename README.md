@@ -17,7 +17,6 @@ Before you can start using GitHub, you need an account.
 Git is the version control system that GitHub is built upon. Here's how you can set it up:
 
 1. Download and install Git from [git-scm.com](https://git-scm.com/downloads).
-2
 2. Open your terminal (Command Prompt or PowerShell on Windows, Terminal on macOS or Linux).
 3. Configure Git with your username and email address:
 
@@ -65,7 +64,7 @@ When you make changes to a file in your repository, you'll want to save those ch
 
 ### Pushing Changes to GitHub
 
-To make your local commits available to the team on GitHub, you need to "push" the changes.
+To make your local commits available to our team on GitHub, you need to "push" the changes.
 
 1. In your terminal, make sure you are in the repository directory.
 2. Type git push origin main (or git push origin master depending on your default branch name).
