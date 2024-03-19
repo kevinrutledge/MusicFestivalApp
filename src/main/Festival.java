@@ -5,22 +5,46 @@ import java.util.Comparator;
 
 public class Festival {
     private String name;
-    private String date;
+    private String startDate;
     private double price;
-    private String location;
-    private String venue;
+    private String city;
+    private String state;
     private int ticketsRemaining;
-    private ArrayList<String> artistLineup;
+    private String startDateCity;
+    private ArrayList<String> genre;
+    private ArrayList<String> featuredArtistLineup;
 
-    // Constructor
-    public Festival(String name, String date, double price, String location, String venue, int ticketsRemaining) {
+    public Festival(String name) {
         this.name = name;
-        this.date = date;
+        this.startDate = "date unknown";
+        this.price = 0.0;
+        this.city = "city unknown";
+        this.state = "state unknown";
+        this.ticketsRemaining = 0;
+        this.startDateCity = "city and date unknown";
+    }
+
+    public Festival(String startDate, String city) {
+        this.name = "name unknown";
+        this.startDate = startDate;
+        this.price = 0.0;
+        this.city = city;
+        this.state = "state unknown";
+        this.ticketsRemaining = 0;
+        this.startDateCity = startDate + ", " + city;
+    }
+
+    public Festival(String name, String startDate, double price, String city, String state,
+                    int ticketsRemaining, ArrayList<String> genre, ArrayList<String> featuredArtistLineup) {
+        this.name = name;
+        this.startDate = startDate;
         this.price = price;
-        this.location = location;
-        this.venue = venue;
+        this.city = city;
+        this.state = state;
         this.ticketsRemaining = ticketsRemaining;
-        this.artistLineup = new ArrayList<>();
+        this.startDateCity = startDate + ", " + city;
+        this.genre = genre;
+        this.featuredArtistLineup = featuredArtistLineup;
     }
 
     // Getters and Setters
@@ -29,7 +53,7 @@ public class Festival {
     }
 
     public String getDate() {
-        return date;
+        return startDate;
     }
 
     public double getPrice() {
@@ -37,19 +61,27 @@ public class Festival {
     }
 
     public String getLocation() {
-        return location;
+        return city;
     }
 
-    public String getVenue() {
-        return venue;
+    public String getState() {
+        return state;
     }
 
     public int getTicketsRemaining() {
         return ticketsRemaining;
     }
 
+    public String getStartDateCity() {
+        return startDateCity;
+    }
+
+    public ArrayList<String> getGenre() {
+        return genre;
+    }
+
     public ArrayList<String> getArtistLineup() {
-        return artistLineup;
+        return featuredArtistLineup;
     }
 
     public void setName(String name) {
@@ -57,46 +89,52 @@ public class Festival {
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.startDate = date;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(String city) {
+        this.city = city;
     }
 
-    public void setVenue(String venue) {
-        this.venue = venue;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setTicketsRemaining(int ticketsRemaining) {
         this.ticketsRemaining = ticketsRemaining;
     }
 
-    // Methods for managing artists
-    public void insertArtist(String artist) {
-        artistLineup.add(artist);
+    public void addGenre(String genre) {
+        this.genre.add(genre);
+    }
+
+    public void removeGenre(String genre) {
+        this.genre.remove(genre);
+    }
+
+    public void addArtist(String artist) {
+        featuredArtistLineup.add(artist);
     }
 
     public void removeArtist(String artist) {
-        artistLineup.remove(artist);
+        featuredArtistLineup.remove(artist);
     }
 }
 
 class NameComparator implements Comparator<Festival> {
     @Override
-    public int compare(Festival f1, Festival f2) {
-        return f1.getName().compareTo(f2.getName());
+    public int compare(Festival festival1, Festival festival2) {
+        return festival1.getName().compareTo(festival2.getName());
     }
 }
 
-class DateComparator implements Comparator<Festival> {
+class StartDateCityComparator implements Comparator<Festival> {
     @Override
-    public int compare(Festival f1, Festival f2) {
-        // date is stored in 'yyyy-MM-dd' format or else error
-        return f1.getDate().compareTo(f2.getDate());
+    public int compare(Festival festival1, Festival festival2) {
+        return festival1.getStartDateCity().compareTo(festival2.getStartDateCity());
     }
 }

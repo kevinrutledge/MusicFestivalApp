@@ -1,18 +1,40 @@
 package main;
 
 public class Order {
-    private int orderID;
-    private Customer customer;
+    private int orderID = 100000000;
+    private String firstName;
+    private String lastName;
     private String date;
-    private BST<Festival> orderContents;
+    private LinkedList<Festival> orderContents;
     private int shippingSpeed;
     private int priority;
 
     // Constructor
-    public Order(int orderID, Customer customer, String date, BST<Festival> orderContents,
-                 int shippingSpeed, int priority) {
+    public Order(int orderID) {
         this.orderID = orderID;
-        this.customer = customer;
+        this.firstName = "first name unknown";
+        this.lastName = "last name unknown";
+        this.date = "date unknown";
+        this.orderContents = null;
+        this.shippingSpeed = 0;
+        this.priority = 0;
+    }
+
+    public Order(String firstName, String lastName) {
+        this.orderID = 0;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.date = "date unknown";
+        this.orderContents = null;
+        this.shippingSpeed = 0;
+        this.priority = 0;
+    }
+
+    public Order(int orderID, String firstName, String lastName, String date,
+                 LinkedList<Festival> orderContents, int shippingSpeed, int priority) {
+        this.orderID = orderID;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.date = date;
         this.orderContents = orderContents;
         this.shippingSpeed = shippingSpeed;
@@ -24,18 +46,21 @@ public class Order {
         return orderID;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getDate() {
         return date;
     }
 
-    public BST<Festival> getOrderContents() {
+    public LinkedList<Festival> getOrderContents() {
         return orderContents;
     }
-
     public int getShippingSpeed() {
         return shippingSpeed;
     }
@@ -49,17 +74,18 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public void setOrderContents(BST<Festival> orderContents) {
-        this.orderContents = orderContents;
-    }
 
     public void setShippingSpeed(int shippingSpeed) {
         this.shippingSpeed = shippingSpeed;
@@ -69,7 +95,15 @@ public class Order {
         this.priority = priority;
     }
 
-    // Additional methods for functionality such as calculating total price, updating order status, etc.
+    public void addFestival(Festival festival) {
+        orderContents.addLast(festival);
+    }
+
+    public void removeFestival(Festival festival) {
+        int index = orderContents.findIndex(festival);
+        orderContents.advanceIteratorToIndex(index);
+        orderContents.removeIterator();
+    }
 
     @Override
     public String toString() {

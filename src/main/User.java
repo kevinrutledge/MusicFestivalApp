@@ -5,13 +5,30 @@ public abstract class User {
     protected String lastName;
     protected String email;
     protected String password;
+    protected boolean isEmployee;
 
-    // Constructor
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String email) {
+        this.firstName = "first name unknown";
+        this.lastName = "last name unknown";
+        this.email = email;
+        this.password = "password unknown";
+        this.isEmployee = false;
+    }
+
+    public User(String email, String password) {
+        this.firstName = "first name unknown";
+        this.lastName = "last name unknown";
+        this.email = email;
+        this.password = password;
+        this.isEmployee = false;
+    }
+
+    public User(String firstName, String lastName, String email, String password, boolean isEmployee) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.isEmployee = isEmployee;
     }
 
     // Getters and Setters
@@ -44,8 +61,8 @@ public abstract class User {
     }
 
     // Abstract methods
-    public boolean passwordMatch(String password) {
-        return false;
+    public boolean passwordMatch(String anotherPassword) {
+        return this.password.equals(anotherPassword);
     }
 
     @Override

@@ -5,19 +5,17 @@ public class Customer extends User {
     private String city;
     private String state;
     private String zip;
-    private LinkedList<Order> shippedOrders;
-    private LinkedList<Order> unshippedOrders;
+    private LinkedList<Order> shippedOrders = new LinkedList<>();
+    private LinkedList<Order> unshippedOrders = new LinkedList<>();
 
     // Constructor
     public Customer(String firstName, String lastName, String login, String password,
-                    String address, String city, String state, String zip) {
-        super(firstName, lastName, login, password);
+                    boolean isEmployee, String address, String city, String state, String zip) {
+        super(firstName, lastName, login, password, isEmployee);
         this.address = address;
         this.city = city;
         this.state = state;
         this.zip = zip;
-        this.shippedOrders = new LinkedList<>();
-        this.unshippedOrders = new LinkedList<>();
     }
 
     // Getters
@@ -37,12 +35,36 @@ public class Customer extends User {
         return zip;
     }
 
-    public LinkedList<Order> getShippedOrders() {
-        return shippedOrders;
+    public Order getShippedOrderByOrderID(int orderID) {
+        Order placeholderOrder = new Order(orderID);
+        int index = shippedOrders.findIndex(placeholderOrder);
+        shippedOrders.advanceIteratorToIndex(index);
+        Order result = shippedOrders.getIterator();
+        return result;
     }
 
-    public LinkedList<Order> getUnshippedOrders() {
-        return unshippedOrders;
+    public Order getUnshippedOrderByOrderID(int orderID) {
+        Order placeholderOrder = new Order(orderID);
+        int index = unshippedOrders.findIndex(placeholderOrder);
+        unshippedOrders.advanceIteratorToIndex(index);
+        Order result = unshippedOrders.getIterator();
+        return result;
+    }
+
+    public Order getShippedOrderByCustomerName() {
+        Order placeholderOrder = new Order(firstName, lastName);
+        int index = shippedOrders.findIndex(placeholderOrder);
+        unshippedOrders.advanceIteratorToIndex(index);
+        Order result = unshippedOrders.getIterator();
+        return result;
+    }
+
+    public Order getunshippedOrderByCustomerName() {
+        Order placeholderOrder = new Order(firstName, lastName);
+        int index = unshippedOrders.findIndex(placeholderOrder);
+        unshippedOrders.advanceIteratorToIndex(index);
+        Order result = unshippedOrders.getIterator();
+        return result;
     }
 
     // Setters

@@ -1,0 +1,116 @@
+Jiming Wu
+jwu@gmail.com
+abc123
+false
+123 Main St
+Springfield
+IL
+62704
+
+James Brown
+jaime.boy.brown@hotmail.com
+jjjbbb123
+false
+456 Elm Street
+Boulder
+CO
+80302
+
+Leanna Perez
+leaperez@yahoo.com
+letmein
+false
+789 Pine Avenue
+Austin
+TX
+78701
+
+Xing Li
+xing.li@sbcglobal.net
+555!!!h
+false
+1012 Oak Lane
+Boston
+MA
+02110
+
+Stacey Cahill
+thecahills@gmail.com
+r0tr@tr^n
+false
+1314 Maple Drive
+Seattle
+WA
+98101
+
+Mohammed Abbas
+downton_abbas@yahoo.com
+1@m@bb@s
+true
+false
+
+Kumari Chakrabarti
+kukuchakrabarti@hotmail.com
+passw0rd
+false
+1516 Birch Road
+Nashville
+TN
+37203
+
+Shakil Smith
+shakattaq@gmail.com
+qwerty
+true
+false
+
+Ally Gu
+i_am_ally@comcast.net
+trustno1
+false
+1718 Cedar Street
+San Francisco
+CA
+94102
+
+Tamara White
+tamtastic@gmail.com
+1qaz2wsx
+true
+true
+
+Alvin Ngo
+drngo@hotmail.com
+qwertyuiop
+true
+false
+
+Abir Fadel
+greatabs@comcast.com
+qazwsx
+true
+false
+
+Brad Feinman
+bradisrad@gmail.com
+11111
+false
+1920 Spruce Street
+Philadelphia
+PA
+19103
+
+Xiaohang Yue
+yue95@yahoo.com
+adobe123
+false
+2122 Walnut Street
+Orlando
+FL
+32801
+
+Jessie Cahill
+thecahills@gmail.com
+football
+true
+false

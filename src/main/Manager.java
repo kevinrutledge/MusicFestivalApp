@@ -2,21 +2,17 @@ package main;
 
 public class Manager extends Employee {
 
-    // Constructor
-    public Manager(String firstName, String lastName, String login, String password) {
-        super(firstName, lastName, login, password, true);
+    public Manager(String firstName, String lastName, String login, String password,
+                   boolean isEmployee, boolean isManager) {
+        super(firstName, lastName, login, password, isEmployee, isManager);
     }
 
-    // Manager-specific Methods
-    public void addProduct(Festival festival) {
-        // Implementation
+    public void addFestival(Festival festival) {
     }
 
-    public void updateProduct(Festival festival) {
-        // Implementation
+    public void updateFestival(Festival festival) {
     }
 
-    public void removeProduct(Festival festival) {
-        // Implementation
+    public void removeFestival(Festival festival) {
     }
 }
