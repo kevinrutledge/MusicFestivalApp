@@ -6,10 +6,10 @@ import java.util.*;
 public class MusicFestival {
     // Static data structures for the application
     private static BST<Festival> festivalsByName = new BST<>(); // BST for primary key.
-    private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for primary key.
-    private static HashTable<User> users = new HashTable<>(15); // 15 placeholder value
-    private static String file1; // Filename for saving/loading festivals
-    private static String file2; // Filename for saving/loading users and employees
+    private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
+    private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
+    private static Heap<Order> shippedOrders; // Heap for shipped orders.
+    private static Heap<Order> unshippedOrders; // Heap for unshipped orders.
 
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
