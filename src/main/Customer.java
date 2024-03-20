@@ -35,7 +35,7 @@ public class Customer extends User {
         return zip;
     }
 
-    public Order getShippedOrderByOrderID(int orderID) {
+    public Order getShippedOrderByOrderID(String orderID) {
         Order placeholderOrder = new Order(orderID);
         int index = shippedOrders.findIndex(placeholderOrder);
         shippedOrders.advanceIteratorToIndex(index);
@@ -43,7 +43,7 @@ public class Customer extends User {
         return result;
     }
 
-    public Order getUnshippedOrderByOrderID(int orderID) {
+    public Order getUnshippedOrderByOrderID(String orderID) {
         Order placeholderOrder = new Order(orderID);
         int index = unshippedOrders.findIndex(placeholderOrder);
         unshippedOrders.advanceIteratorToIndex(index);
