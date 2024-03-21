@@ -3,14 +3,40 @@ package main;
 import java.util.Comparator;
 
 public class Order {
+    public enum ShippingSpeed {
+        STANDARD(1),
+        PRIORITY(2),
+        DIGITAL(3);
+
+        private final int shippingCode;
+
+        ShippingSpeed(int shippingCode) {
+            this.shippingCode = shippingCode;
+        }
+
+        public int getSpeedCode() {
+            return this.shippingCode;
+        }
+
+        public static ShippingSpeed fromCode(int code) {
+            for (ShippingSpeed speed : ShippingSpeed.values()) {
+                if (speed.getSpeedCode() == code) {
+                    return speed;
+                }
+            }
+            throw new IllegalArgumentException("Invalid Shipping Speed code: " + code);
+        }
+    }
+
     private String orderID;
     private String firstName;
     private String lastName;
-    private String date;
+    private String datePurchased;
     private LinkedList<Festival> orderContents;
-    private boolean isShipped;
-    private int shippingSpeed;
+    private double totalPrice;
+    private ShippingSpeed shippingSpeed;
     private int priority;
+    private boolean isShipped;
     private static int orderIDSeed = 100000000;
 
     // Constructor
@@ -18,31 +44,32 @@ public class Order {
         this.orderID = orderID;
         this.firstName = "first name unknown";
         this.lastName = "last name unknown";
-        this.date = "date unknown";
+        this.datePurchased = "date unknown";
         this.orderContents = null;
+        this.totalPrice = 0.0;
+        this.shippingSpeed = null;
         this.isShipped = false;
-        this.shippingSpeed = 0;
-        this.priority = 0;
     }
 
     public Order(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.date = "date unknown";
+        this.datePurchased = "date unknown";
         this.orderContents = null;
+        this.totalPrice = 0.0;
+        this.shippingSpeed = null;
         this.isShipped = false;
-        this.shippingSpeed = 0;
-        this.priority = 0;
     }
 
-    public Order(String firstName, String lastName, String date, boolean isShipped,
-                 LinkedList<Festival> orderContents, int shippingSpeed) {
+    public Order(String firstName, String lastName, String datePurchased, LinkedList<Festival> orderContents,
+                 ShippingSpeed shippingSpeed, boolean isShipped) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.date = date;
+        this.datePurchased = datePurchased;
         this.orderContents = orderContents;
-        this.isShipped = isShipped;
+        this.totalPrice = calculateTotalPrice();
         this.shippingSpeed = shippingSpeed;
+        this.isShipped = isShipped;
     }
 
     // Getters
@@ -63,23 +90,28 @@ public class Order {
         return lastName;
     }
 
-    public String getDate() {
-        return date;
+    public String getDatePurchased() {
+        return datePurchased;
     }
 
     public LinkedList<Festival> getOrderContents() {
         return orderContents;
     }
-    public int getShippingSpeed() {
-        return shippingSpeed;
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public boolean getIsShipped() {
-        return isShipped;
+    public ShippingSpeed getShippingSpeed() {
+        return shippingSpeed;
     }
 
     public int getPriority() {
         return priority;
+    }
+
+    public boolean getIsShipped() {
+        return isShipped;
     }
 
     public void setFirstName(String firstName) {
@@ -90,15 +122,11 @@ public class Order {
         this.lastName = lastName;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDatePurchased(String datePurchased) {
+        this.datePurchased = datePurchased;
     }
 
-    public void setIsShipped(boolean isShipped) {
-        this.isShipped = isShipped;
-    }
-
-    public void setShippingSpeed(int shippingSpeed) {
+    public void setShippingSpeed(ShippingSpeed shippingSpeed) {
         this.shippingSpeed = shippingSpeed;
     }
 
@@ -106,8 +134,26 @@ public class Order {
         this.priority = priority;
     }
 
+    public void setIsShipped(boolean isShipped) {
+        this.isShipped = isShipped;
+    }
+
     public void addFestival(Festival festival) {
         orderContents.addLast(festival);
+    }
+
+    public double calculateTotalPrice() {
+        if (this.orderContents == null || this.orderContents.isEmpty()) {
+            return 0.0;
+        }
+        double totalPrice = 0.0;
+        this.orderContents.positionIterator();
+        while (!this.orderContents.offEnd()) {
+            Festival currentFestival = this.orderContents.getIterator();
+            totalPrice += currentFestival.getPrice();
+        }
+        this.totalPrice = totalPrice;
+        return totalPrice;
     }
 
     public void removeFestival(Festival festival) {
@@ -118,8 +164,15 @@ public class Order {
 
     @Override
     public String toString() {
-        // You can modify this to print the details you want to show about the order
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order ID: ").append(orderID).append("\n");
+        sb.append("Name: ").append(firstName).append(" ").append(lastName).append("\n");
+        sb.append("Date Purchased: ").append(datePurchased).append("\n");
+        sb.append("Music Festivals: ").append(orderContents.toString()).append("\n");
+        sb.append("Price: $").append(String.format("%.2f", totalPrice)).append("\n");
+        sb.append("Shipping Speed: ").append(shippingSpeed).append("\n");
+        sb.append("Shipping Status: ").append(isShipped).append("\n");
+        return sb.toString();
     }
 }
 
