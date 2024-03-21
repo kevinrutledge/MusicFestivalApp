@@ -1,4 +1,11 @@
 Jiming Wu
+2024-01-26
+1
+Ultra Music Festival Miami 2024
+true
+1
+
+Jiming Wu
 2024-02-14
 2
 Ultra Music Festival Miami 2024
@@ -8,6 +15,13 @@ true
 
 Jiming Wu
 2024-03-13
+1
+Coachella Music Festival 2024
+false
+3
+
+Jiming Wu
+2024-03-16
 2
 New Orleans Jazz & Heritage Festival 2024
 EDC Las Vegas 2024
@@ -15,20 +29,42 @@ false
 2
 
 James Brown
-2024-03-13
-3
+2024-02-14
+1
 Coachella Music Festival 2024
-Stagecoach Country Music Festival 2024
-Essence Music Festival 2024
-false
+true
 3
 
+James Brown
+2024-02-21
+2
+Sick New World 2024
+Hard Summer 2024
+true
+2
+
+James Brown
+2024-03-14
+2
+Bottlerock Napa Valley 2024
+Summerfest 2024
+false
+1
+
 Leanna Perez
-2024-03-16
+2024-01-16
 2
 Stagecoach Country Music Festival 2024
 Summerfest 2024
-false
+true
+1
+
+Stacey Cahill
+2024-01-22
+2
+Coachella Music Festival 2024
+Lovers & Friends Fest 2024
+true
 1
 
 Stacey Cahill
@@ -37,6 +73,13 @@ Stacey Cahill
 Sonic Temple Festival 2024
 Cruel World Festival 2024
 Hard Summer 2024
+false
+2
+
+Stacey Cahill
+2024-03-16
+1
+When We Were Young Festival 2024
 false
 1
 
@@ -63,7 +106,25 @@ false
 1
 
 Brad Feinman
-2024-01-05
+2024-03-16
 1
+EDC Las Vegas 2024
+false
+1
+
+Xiaohang Yue
+2024-01-04
+3
+Ultra Music Festival Miami 2024
+Coachella Music Festival 2024
+Lovers & Friends Fest 2024
+true
+1
+
+Xiaohang Yue
+2024-03-13
+2
 Sunfest 2024
+EDC Las Vegas 2024
+false
 1
