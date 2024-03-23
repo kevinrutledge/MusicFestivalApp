@@ -12,3 +12,6 @@
 # IntelliJ IDEA project files
 *.iml
 .idea/
+
+# Build artifacts
+out/
