@@ -114,5 +114,6 @@ public class DataLoader {
 
     static void populateOrders(Scanner scanner) {
         // Load or input order data
+        // TODO - Congcong
     }
 }
