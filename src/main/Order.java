@@ -144,6 +144,7 @@ public class Order {
         while (!this.orderContents.offEnd()) {
             Festival currentFestival = this.orderContents.getIterator();
             totalPrice += currentFestival.getPrice();
+            orderContents.advanceIterator();
         }
         this.totalPrice = totalPrice;
         return totalPrice;
