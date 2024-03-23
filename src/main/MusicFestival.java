@@ -19,7 +19,7 @@ public class MusicFestival {
         // Load data from files
         mergeSort();
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
-        DataLoader.populateUsers(scanner);
+        DataLoader.populateUsers(users, employees);
         DataLoader.authenticateUsers(scanner);
         DataLoader.populateOrders(scanner);
 

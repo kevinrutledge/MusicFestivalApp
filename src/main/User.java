@@ -84,6 +84,6 @@ public abstract class User {
 
     @Override
     public int hashCode() {
-        return 0;
+        return Math.abs(email.hashCode());
     }
 }
