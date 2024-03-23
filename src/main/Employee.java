@@ -4,6 +4,14 @@ public class Employee extends User {
     private boolean isManager;
 
     // Constructor
+    public Employee(String email) {
+        super(email);
+    }
+
+    public Employee(String email, String password) {
+        super(email, password);
+    }
+
     public Employee(String firstName, String lastName, String login, String password,
                     boolean isEmployee, boolean isManager) {
         super(firstName, lastName, login, password, isEmployee);

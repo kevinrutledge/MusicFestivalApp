@@ -9,6 +9,14 @@ public class Customer extends User {
     private LinkedList<Order> unshippedOrders = new LinkedList<>();
 
     // Constructor
+    public Customer(String email) {
+        super(email);
+    }
+
+    public Customer(String email, String password) {
+        super(email, password);
+    }
+
     public Customer(String firstName, String lastName, String login, String password,
                     boolean isEmployee, String address, String city, String state, String zip) {
         super(firstName, lastName, login, password, isEmployee);

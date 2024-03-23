@@ -39,7 +39,7 @@ public class MusicFestival {
                     System.out.print("Enter your password: ");
                     String password = scanner.nextLine();
                     Customer user = new Customer(email, password);
-                    user = users.get(user);
+                    user = (Customer) users.get(user);
                     if (users.get(user) != null) {
                         System.out.printf("Welcome %s %s", user.getFirstName(), user.getLastName());
                         loggedin = true;
