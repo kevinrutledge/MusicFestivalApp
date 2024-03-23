@@ -1,12 +1,14 @@
 package main;
 
 import java.util.Comparator;
+import java.time.LocalDate;
 
 public class Order {
     public enum ShippingSpeed {
         STANDARD(1),
-        PRIORITY(2),
-        DIGITAL(3);
+        RUSH(2),
+        OVERNIGHT(3),
+        DIGITAL(4);
 
         private final int shippingCode;
 
@@ -14,13 +16,13 @@ public class Order {
             this.shippingCode = shippingCode;
         }
 
-        public int getSpeedCode() {
+        public int getShippingCode() {
             return this.shippingCode;
         }
 
         public static ShippingSpeed fromCode(int code) {
             for (ShippingSpeed speed : ShippingSpeed.values()) {
-                if (speed.getSpeedCode() == code) {
+                if (speed.getShippingCode() == code) {
                     return speed;
                 }
             }
@@ -35,7 +37,6 @@ public class Order {
     private LinkedList<Festival> orderContents;
     private double totalPrice;
     private ShippingSpeed shippingSpeed;
-    private int priority;
     private boolean isShipped;
     private static int orderIDSeed = 100000000;
 
@@ -106,10 +107,6 @@ public class Order {
         return shippingSpeed;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
     public boolean getIsShipped() {
         return isShipped;
     }
@@ -128,10 +125,6 @@ public class Order {
 
     public void setShippingSpeed(ShippingSpeed shippingSpeed) {
         this.shippingSpeed = shippingSpeed;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public void setIsShipped(boolean isShipped) {
@@ -179,6 +172,31 @@ public class Order {
 class PriorityComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {
-        return Integer.compare(order1.getPriority(), order2.getPriority());
+        LocalDate date1 = LocalDate.parse(order1.getDatePurchased());
+        LocalDate date2 = LocalDate.parse(order2.getDatePurchased());
+        int dateComparison = date1.compareTo(date2);
+
+        if (dateComparison != 0) {
+            return dateComparison;
+        } else {
+            return Integer.compare(order1.getShippingSpeed().getShippingCode(),
+                                   order2.getShippingSpeed().getShippingCode());
+        }
+    }
+}
+
+class OrderNameComparator implements Comparator<Order> {
+    @Override
+    public int compare(Order order1, Order order2) {
+        String order1CustomerName = order1.getFirstName() + " " + order1.getLastName();
+        String order2CustomerName = order2.getFirstName() + " " + order2.getLastName();
+        return order1CustomerName.compareTo(order2CustomerName);
+    }
+}
+
+class OrderIdComparator implements Comparator<Order> {
+    @Override
+    public int compare(Order order1, Order order2) {
+        return order1.getOrderID().compareTo(order2.getOrderID());
     }
 }

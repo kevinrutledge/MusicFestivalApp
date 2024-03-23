@@ -135,7 +135,15 @@ public class Festival {
         sb.append("Genres: ").append(genre.toString()).append("\n"); // More readable for ArrayList of Strings
         sb.append("Featured Artists: ").append(featuredArtistLineup.toString()).append("\n");
         return sb.toString();
-    }    
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Festival)) return false;
+        Festival that = (Festival) other;
+        return this.name.equals(that.name);
+    }
 }
 
 class NameComparator implements Comparator<Festival> {
