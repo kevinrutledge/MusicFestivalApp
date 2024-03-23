@@ -61,7 +61,8 @@ public class DataLoader {
                     String zip = scanner.nextLine();
                     Customer customer = new Customer(
                             name[0],
-                            name[1],email,
+                            name[1],
+                            email,
                             password,
                             isEmployee,
                             address,
