@@ -38,7 +38,7 @@ public class MusicFestival {
     public static User login(Scanner scanner) {
         boolean loggedin = false;
         int loginChoice;
-        String first, last, email, password, address, city, state, zip;
+        String firstName, lastName, email, password, address, city, state, zip;
         User user;
         // loops until user is logged in
         do {
@@ -66,9 +66,9 @@ public class MusicFestival {
                 case 2: // create new account
                     System.out.println("Creating new account");
                     System.out.print("Enter your first name: ");
-                    first = scanner.nextLine();
+                    firstName = scanner.nextLine();
                     System.out.print("Enter your last name: ");
-                    last = scanner.nextLine();
+                    lastName = scanner.nextLine();
                     System.out.print("Enter your email: ");
                     email = scanner.nextLine();
                     System.out.print("Enter your password: ");
@@ -77,23 +77,23 @@ public class MusicFestival {
                     address = scanner.nextLine();
                     System.out.print("Enter your city: ");
                     city = scanner.nextLine();
-                    System.out.print("Enter your state: ");
+                    System.out.print("Enter your state initials: ");
                     state = scanner.nextLine();
                     System.out.print("Enter your zip: ");
                     zip = scanner.nextLine();
-                    user = new Customer(first, last, email, password, false, address, city, state, zip);
+                    user = new Customer(firstName, lastName, email, password, false, address, city, state, zip);
                     // adds new account to hashtable
                     users.add(user);
                     // writes new account to users.txt
                     try (FileWriter writer = new FileWriter("users.txt", true)) {
-                        writer.write(user.getFirstName() + " " + user.getLastName() + "\n");
-                        writer.write(user.getEmail() + "\n");
-                        writer.write(user.getPassword() + "\n");
+                        writer.write(firstName + " " + lastName + "\n");
+                        writer.write(email + "\n");
+                        writer.write(password + "\n");
                         writer.write("false\n");
-                        writer.write(((Customer) user).getAddress() + "\n");
-                        writer.write(((Customer) user).getCity() + "\n");
-                        writer.write(((Customer) user).getState() + "\n");
-                        writer.write(((Customer) user).getZip() + "\n");
+                        writer.write(address + "\n");
+                        writer.write(city + "\n");
+                        writer.write(state + "\n");
+                        writer.write(zip + "\n");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
