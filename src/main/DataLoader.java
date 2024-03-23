@@ -43,8 +43,68 @@ public class DataLoader {
         }
     }
 
-    static void populateUsers(Scanner scanner) {
-        // Load or input user data
+    static void populateUsers(HashTable<User> users, HashTable<User> employees) {
+        // Load user data from file
+        try {
+            Scanner scanner = new Scanner(new File("users.txt"));
+            while (scanner.hasNextLine()) {
+                // [first, last]
+                String[] name = scanner.nextLine().split(" ");
+                String email = scanner.nextLine();
+                String password = scanner.nextLine();
+                boolean isEmployee = Boolean.parseBoolean(scanner.nextLine());
+                if (!isEmployee) {
+                    // customer
+                    String address = scanner.nextLine();
+                    String city = scanner.nextLine();
+                    String state = scanner.nextLine();
+                    String zip = scanner.nextLine();
+                    Customer customer = new Customer(
+                            name[0],
+                            name[1],email,
+                            password,
+                            isEmployee,
+                            address,
+                            city,
+                            state,
+                            zip
+                    );
+                    users.add(customer);
+                } else {
+                    boolean isManager = Boolean.parseBoolean(scanner.nextLine());
+                    if (isManager) {
+                        Manager manager = new Manager(
+                                name[0],
+                                name[1],
+                                email,
+                                password,
+                                isEmployee,
+                                isManager
+                        );
+                        users.add(manager);
+                        employees.add(manager);
+                    } else {
+                        Employee employee = new Employee(
+                                name[0],
+                                name[1],
+                                email,
+                                password,
+                                isEmployee,
+                                isManager
+                        );
+                        users.add(employee);
+                        employees.add(employee);
+                    }
+                }
+
+                if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found: ");
+        }
     }
 
     static void authenticateUsers(Scanner scanner) {
