@@ -112,8 +112,55 @@ public class DataLoader {
         // Authenticate users based on loaded data
     }
 
-    static void populateOrders(Scanner scanner) {
-        // Load or input order data
-        // TODO - Congcong
+    static void populateOrders(
+            Heap<Order> shippedOrders,
+            Heap<Order> unShippedOrders,
+            BST<Festival> festivals
+    ) {
+        try {
+            Scanner scanner = new Scanner(new File("orders.txt"));
+            while (scanner.hasNextLine()) {
+                String[] names = scanner.nextLine().split(" ");
+                String dateOfPurchase = scanner.nextLine();
+                int numFestivals = Integer.parseInt(scanner.nextLine());
+                LinkedList<Festival> festivalList = new LinkedList<>();
+
+                for (int i = 0; i < numFestivals; i++) {
+                    NameComparator comparator = new NameComparator();
+                    String festivalName = scanner.nextLine();
+                    Festival placeholderFestival = new Festival(festivalName);
+                    Festival festival = festivals.search(placeholderFestival, comparator);
+                    if (festival != null) {
+                        festivalList.addLast(festival);
+                    }
+                }
+
+                boolean isShipped = Boolean.parseBoolean(scanner.nextLine());
+                int shippingCode = Integer.parseInt(scanner.nextLine());
+                Order.ShippingSpeed shippingSpeed = Order.ShippingSpeed.fromCode(shippingCode);
+
+                Order order = new Order(
+                        names[0],
+                        names[1],
+                        dateOfPurchase,
+                        festivalList,
+                        shippingSpeed,
+                        isShipped
+                );
+
+                if (isShipped) {
+                    shippedOrders.insert(order);
+                } else {
+                    unShippedOrders.insert(order);
+                }
+
+                if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found: ");
+        }
     }
 }
