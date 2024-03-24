@@ -121,7 +121,8 @@ public class DataLoader {
         try {
             Scanner scanner = new Scanner(new File("orders.txt"));
             while (scanner.hasNextLine()) {
-                // name
+                // orderID
+                // email address
                 // date of purchase
                 // N = number of festivals in purchase
                 // 1. first festival
@@ -131,7 +132,8 @@ public class DataLoader {
                 // shipping type enum
 
                 // [first, last]
-                String[] name = scanner.nextLine().split(" ");
+                String orderID = scanner.nextLine();
+                String emailAddress = scanner.nextLine();
                 String dateOfPurchase = scanner.nextLine();
                 int numFestivals = Integer.parseInt(scanner.nextLine());
                 String[] festivalNames = new String[numFestivals];
@@ -146,14 +148,16 @@ public class DataLoader {
                     .fromCode(Integer.parseInt(scanner.nextLine()));
 
                 Order order = new Order(
-                        name[0],
-                        name[1],
+                        orderID,
+                        emailAddress,
                         dateOfPurchase,
                         /** TODO */
                         new LinkedList<>(),
                         shippingSpeed,
                         isShipped
                 );
+
+                // TODO - add order to associated USER
 
                 if (isShipped) {
                     shippedOrders.insert(order);
