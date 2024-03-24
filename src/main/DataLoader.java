@@ -112,8 +112,82 @@ public class DataLoader {
         // Authenticate users based on loaded data
     }
 
-    static void populateOrders(Scanner scanner) {
+    static void populateOrders(
+            Heap<Order> shippedOrders,
+            Heap<Order> unShippedOrders,
+            BST<Festival> festivals,
+            HashTable<User> users
+    ) {
         // Load or input order data
-        // TODO - Congcong
+        try {
+            Scanner scanner = new Scanner(new File("orders.txt"));
+            while (scanner.hasNextLine()) {
+                String orderID = scanner.nextLine();
+                String emailAddress = scanner.nextLine();
+                String dateOfPurchase = scanner.nextLine();
+                int numFestivals = Integer.parseInt(scanner.nextLine());
+                String[] festivalNames = new String[numFestivals];
+
+                for (int i = 0; i < numFestivals; i++) {
+                    festivalNames[i] = scanner.nextLine();
+                }
+
+                boolean isShipped = Boolean.parseBoolean(scanner.nextLine());
+                Order.ShippingSpeed shippingSpeed = Order
+                    .ShippingSpeed
+                    .fromCode(Integer.parseInt(scanner.nextLine()));
+
+                LinkedList<Festival> festivalList = new LinkedList<>();
+
+                for (int i = 0; i < festivalNames.length; i++) {
+                    Festival placeholderFestival = new Festival(festivalNames[i]);
+                    Festival result = festivals.search(placeholderFestival, new NameComparator());
+                    if (result != null) {
+                        festivalList.addLast(result);
+                    } else {
+                        throw new IllegalArgumentException("populateOrders(): Festival with name " + festivalNames[i] + " not found.");
+                    }
+                }
+
+                /**
+                 * Set up customer in order to populate their
+                 * unshippedOrders or shippedOrders variables
+                 */
+                Customer userPlaceholder = new Customer(emailAddress);
+                User user = users.get(userPlaceholder);
+                if (user == null) {
+                    throw new IllegalArgumentException("populateOrders(): user with id " + emailAddress + " does not exist (order " + orderID + ")");
+                }
+                if (user.isEmployee) {
+                    throw new IllegalArgumentException("populateOrders(): Attempted to add order " + orderID + "to non-customer user " + emailAddress);
+                }
+                Customer userAsCustomer = (Customer) user;
+
+                // Create the Order object
+                Order order = new Order(
+                        orderID,
+                        emailAddress,
+                        dateOfPurchase,
+                        festivalList,
+                        shippingSpeed,
+                        isShipped
+                );
+
+                if (isShipped) {
+                    shippedOrders.insert(order);
+                    userAsCustomer.addShippedOrder(order);
+                } else {
+                    unShippedOrders.insert(order);
+                    userAsCustomer.addUnshippedOrder(order);
+                }
+
+                if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found: ");
+        }
     }
 }

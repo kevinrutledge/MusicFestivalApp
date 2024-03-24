@@ -2,6 +2,7 @@ package main;
 
 import java.util.Comparator;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class Order {
     public enum ShippingSpeed {
@@ -31,20 +32,27 @@ public class Order {
     }
 
     private String orderID;
-    private String firstName;
-    private String lastName;
+    private String userEmailAddress;
     private String datePurchased;
     private LinkedList<Festival> orderContents;
     private double totalPrice;
     private ShippingSpeed shippingSpeed;
     private boolean isShipped;
-    private static int orderIDSeed = 100000000;
 
     // Constructor
+    public Order() {
+        this.orderID = Order.generateOrderID();
+        this.userEmailAddress = "email unknown";
+        this.datePurchased = "date unknown";
+        this.orderContents = null;
+        this.totalPrice = 0.0;
+        this.shippingSpeed = null;
+        this.isShipped = false;
+    }
+
     public Order(String orderID) {
         this.orderID = orderID;
-        this.firstName = "first name unknown";
-        this.lastName = "last name unknown";
+        this.userEmailAddress = "email unknown";
         this.datePurchased = "date unknown";
         this.orderContents = null;
         this.totalPrice = 0.0;
@@ -52,20 +60,10 @@ public class Order {
         this.isShipped = false;
     }
 
-    public Order(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.datePurchased = "date unknown";
-        this.orderContents = null;
-        this.totalPrice = 0.0;
-        this.shippingSpeed = null;
-        this.isShipped = false;
-    }
-
-    public Order(String firstName, String lastName, String datePurchased, LinkedList<Festival> orderContents,
+    public Order(String orderID, String emailAddress, String datePurchased, LinkedList<Festival> orderContents,
                  ShippingSpeed shippingSpeed, boolean isShipped) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.orderID = orderID;
+        this.userEmailAddress = emailAddress;
         this.datePurchased = datePurchased;
         this.orderContents = orderContents;
         this.totalPrice = calculateTotalPrice();
@@ -74,22 +72,15 @@ public class Order {
     }
 
     // Getters
-    public static int generateOrderID() {
-        orderIDSeed++;
-        return orderIDSeed;
+    public static String generateOrderID() {
+        return UUID.randomUUID().toString();
     }
 
     public String getOrderID() {
         return orderID;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
+    public String getUserEmailAddress() { return userEmailAddress; }
 
     public String getDatePurchased() {
         return datePurchased;
@@ -111,12 +102,8 @@ public class Order {
         return isShipped;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUserEmailAddress(String emailAddress) {
+        this.userEmailAddress = emailAddress;
     }
 
     public void setDatePurchased(String datePurchased) {
@@ -160,7 +147,7 @@ public class Order {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order ID: ").append(orderID).append("\n");
-        sb.append("Name: ").append(firstName).append(" ").append(lastName).append("\n");
+        sb.append("Email: ").append(userEmailAddress).append("\n");
         sb.append("Date Purchased: ").append(datePurchased).append("\n");
         sb.append("Music Festivals: ").append(orderContents.toString()).append("\n");
         sb.append("Price: $").append(String.format("%.2f", totalPrice)).append("\n");
@@ -186,12 +173,10 @@ class PriorityComparator implements Comparator<Order> {
     }
 }
 
-class OrderNameComparator implements Comparator<Order> {
+class OrderEmailComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {
-        String order1CustomerName = order1.getFirstName() + " " + order1.getLastName();
-        String order2CustomerName = order2.getFirstName() + " " + order2.getLastName();
-        return order1CustomerName.compareTo(order2CustomerName);
+        return order1.getUserEmailAddress().compareTo(order2.getUserEmailAddress());
     }
 }
 
