@@ -62,6 +62,32 @@ public class FestivalUi {
     }
 
     static void displayFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity) {
-        // TODO - heejung
+        int choice = -1;
+        while (choice != 3) {
+            System.out.println("How would you like to see the festival list?");
+            System.out.println("1. List festivals by name");
+            System.out.println("2. List festivals by start date and city");
+            System.out.println("3. To the previous menu\n");
+
+            System.out.print("Please enter your choice: ");
+            choice = Integer.parseInt(scanner.nextLine());
+
+            System.out.println();
+            switch (choice) {
+                case 1:
+                    System.out.println("Here is the list of the festival by name.");
+                    System.out.println(byName.inOrderString());
+                    break;
+                case 2:
+                    System.out.println("Here is the list of the festival by start date and city.");
+                    System.out.println(byStartDateCity.inOrderString());
+                    break;
+                case 3:
+                    System.out.println("Ok. Back to the previous menu.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter 1, 2, or 3.");
+            }
+        }
     }
 }
