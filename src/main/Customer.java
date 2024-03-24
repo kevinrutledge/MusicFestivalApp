@@ -59,16 +59,16 @@ public class Customer extends User {
         return result;
     }
 
-    public Order getShippedOrderByCustomerEmail() {
-        Order placeholderOrder = new Order(email);
+    public Order getShippedOrderByCustomerName() {
+        Order placeholderOrder = new Order(firstName, lastName);
         int index = shippedOrders.findIndex(placeholderOrder);
         unshippedOrders.advanceIteratorToIndex(index);
         Order result = unshippedOrders.getIterator();
         return result;
     }
 
-    public Order getunshippedOrderByCustomerEmail() {
-        Order placeholderOrder = new Order(email);
+    public Order getunshippedOrderByCustomerName() {
+        Order placeholderOrder = new Order(firstName, lastName);
         int index = unshippedOrders.findIndex(placeholderOrder);
         unshippedOrders.advanceIteratorToIndex(index);
         Order result = unshippedOrders.getIterator();
@@ -99,14 +99,6 @@ public class Customer extends User {
 
     public void addUnshippedOrder(Order order) {
         unshippedOrders.addLast(order);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Customer)) return false;
-        Customer that = (Customer) other;
-        return this.email.equals(that.email);
     }
 
     @Override
