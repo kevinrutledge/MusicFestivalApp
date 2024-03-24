@@ -102,6 +102,14 @@ public class Customer extends User {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Customer)) return false;
+        Customer that = (Customer) other;
+        return this.email.equals(that.email);
+    }
+
+    @Override
     public String toString() {
         return "";
     }
