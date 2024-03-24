@@ -21,7 +21,7 @@ public class MusicFestival {
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
         DataLoader.populateUsers(users, employees);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName);
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, users);
 
         System.out.println("Welcome to MusicFestivalApp\n");
         // log in

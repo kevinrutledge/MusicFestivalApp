@@ -115,7 +115,8 @@ public class DataLoader {
     static void populateOrders(
             Heap<Order> shippedOrders,
             Heap<Order> unShippedOrders,
-            BST<Festival> festivals
+            BST<Festival> festivals,
+            HashTable<User> users
     ) {
         // Load or input order data
         try {
@@ -148,6 +149,21 @@ public class DataLoader {
                     }
                 }
 
+                /**
+                 * Set up customer in order to populate their
+                 * unshippedOrders or shippedOrders variables
+                 */
+                Customer userPlaceholder = new Customer(emailAddress);
+                User user = users.get(userPlaceholder);
+                if (user == null) {
+                    throw new IllegalArgumentException("populateOrders(): user with id " + emailAddress + " does not exist (order " + orderID + ")");
+                }
+                if (user.isEmployee) {
+                    throw new IllegalArgumentException("populateOrders(): Attempted to add order " + orderID + "to non-customer user " + emailAddress);
+                }
+                Customer userAsCustomer = (Customer) user;
+
+                // Create the Order object
                 Order order = new Order(
                         orderID,
                         emailAddress,
@@ -157,12 +173,12 @@ public class DataLoader {
                         isShipped
                 );
 
-                // TODO - add order to associated USER
-
                 if (isShipped) {
                     shippedOrders.insert(order);
+                    userAsCustomer.addShippedOrder(order);
                 } else {
                     unShippedOrders.insert(order);
+                    userAsCustomer.addUnshippedOrder(order);
                 }
 
                 if (scanner.hasNextLine()) {
