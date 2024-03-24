@@ -76,10 +76,12 @@ public class FestivalUi {
             switch (choice) {
                 case 1:
                     System.out.println("Here is the list of the festival by name.");
+                    System.out.println();
                     System.out.println(byName.inOrderString());
                     break;
                 case 2:
                     System.out.println("Here is the list of the festival by start date and city.");
+                    System.out.println();
                     System.out.println(byStartDateCity.inOrderString());
                     break;
                 case 3:
