@@ -3,14 +3,20 @@ package main;
 import java.io.*;
 import java.util.*;
 
+import main.Order.ShippingSpeed;
+
 public class MusicFestival {
     // Static data structures for the application
     private static BST<Festival> festivalsByName = new BST<>(); // BST for primary key.
     private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
     private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
     private static HashTable<User> employees = new HashTable<>(100); // HashTable for employees
-    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for shipped orders.
-    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator());; // Heap for unshipped orders.
+    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
+                                                                                                        // shipped
+                                                                                                        // orders.
+    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
+                                                                                                          // unshipped
+                                                                                                          // orders.
 
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
@@ -24,14 +30,16 @@ public class MusicFestival {
         DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName);
 
         System.out.println("Welcome to MusicFestivalApp\n");
-        // log in
+        // log in, login(scanner) returns a
         User user = login(scanner);
-        // determines if user is a customer or an employee
-        int userType;
-        if (!user.isEmployee) {
-            userType = 1;
+        // determines if user is a customer or an employee and gives appropriate menu
+        // options
+        if (!user.getIsEmployee()) {
+            customerMenu(scanner, (Customer) user); // gives customer menu
+        } else if (!((Employee) user).getIsManager()) {
+            // gives employee menu
         } else {
-            userType = 2;
+            // gives manager menu
         }
     }
 
@@ -134,6 +142,60 @@ public class MusicFestival {
         System.out.println("Welcome Guest");
         return user;
 
+    }
+
+    public static void customerMenu(Scanner scanner, Customer user) {
+        boolean quit = false;
+        int menuChoice;
+        String line;
+        do { // loops until quit
+
+            System.out.print(
+                    "Enter 1 to search by name, 2 to search by date + city, 3 to place order, 4 to view purchases, 5 to quit: ");
+            menuChoice = scanner.nextInt();
+            scanner.nextLine();
+            switch (menuChoice) {
+                case 1: // search by name
+                    System.out.print("Enter name to search by: ");
+                    line = scanner.nextLine();
+                    break;
+                case 2: // search by date + city
+                    System.out.print("Enter date + city(example here) to search by: ");
+                    line = scanner.nextLine();
+                    break;
+                case 3: // place order for non-guests only
+                    if (((User) user).getEmail() == "guest@email.com") {
+                        System.out.println("Ordering is not available to guests");
+                        break;
+                    }
+                    // display festivals by name
+                    // input by name
+                    // place an order of new Order(String orderID, String emailAddress, String
+                    // datePurchased, LinkedList<Festival> orderContents, ShippingSpeed
+                    // shippingSpeed, boolean isShipped)
+                    // customer.addUnshippedOrder(order); always unshipped because it just got
+                    // ordered
+                    // display details
+                    break;
+                case 4: // view purchase for non-guests only
+                    if (((User) user).getEmail() == "guest@email.com") {
+                        System.out.println("Ordering is not available to guests");
+                        break;
+                    }
+                    // prints shipped then unshipped orders
+                    System.out.println("Shipped Orders:");
+                    user.getShippedOrderByCustomerName();
+                    System.out.println("Unshipped Orders:");
+                    user.getShippedOrderByCustomerName();
+                    break;
+                case 5: // quit
+                    quit = true;
+                    break;
+                default:
+                    System.out.println("Invalid input");
+                    break;
+            }
+        } while (!quit);
     }
 
     // Method stubs for the functionalities mentioned in the project prompt
