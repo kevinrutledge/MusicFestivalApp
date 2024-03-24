@@ -27,7 +27,7 @@ public class MusicFestival {
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
         DataLoader.populateUsers(users, employees);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, users);
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName);
 
         System.out.println("Welcome to MusicFestivalApp\n");
         // log in, login(scanner) returns a
@@ -184,9 +184,9 @@ public class MusicFestival {
                     }
                     // prints shipped then unshipped orders
                     System.out.println("Shipped Orders:");
-                    user.getShippedOrderByCustomerEmail();
+                    user.getShippedOrderByCustomerName();
                     System.out.println("Unshipped Orders:");
-                    user.getunshippedOrderByCustomerEmail();
+                    user.getShippedOrderByCustomerName();
                     break;
                 case 5: // quit
                     quit = true;
