@@ -11,12 +11,12 @@ public class MusicFestival {
     private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
     private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
     private static HashTable<User> employees = new HashTable<>(100); // HashTable for employees
-    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new OrderIdComparator()); // Heap for
-                                                                                                       // shipped
-                                                                                                       // orders.
-    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new OrderIdComparator()); // Heap for
-                                                                                                         // unshipped
-                                                                                                         // orders.
+    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
+                                                                                                        // shipped
+                                                                                                        // orders.
+    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
+                                                                                                          // unshipped
+                                                                                                          // orders.
 
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
