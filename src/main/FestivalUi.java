@@ -92,4 +92,37 @@ public class FestivalUi {
             }
         }
     }
+
+    static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+        // TODO - heejung
+        // 1. Check if user is manager
+        // 2. Insert new festival in both BSTs.
+    }
+
+    static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+        // TODO - heejung
+        // 1. Check if user is manager
+        // 2. Search by primary key (name)
+        // 3. Remove the found festival in both BSTs.
+        // 4. Mutate the found festival.
+        // 5. Insert festival to both BSTs.
+    }
+
+    static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+        // TODO - heejung
+        // 1. Check if user is manager
+        // 2. Search by primary key (name)
+        // 3. Remove the found festival in both BSTs.
+        // 4. Mutate the found festival.
+        // 5. Insert festival to both BSTs.        
+    }
+
+    @SuppressWarnings("unused")
+    private static Festival findAndRemove(BST<Festival> byName, BST<Festival> byStartDateCity) {
+        // TODO - heejung
+        // Helper method to be used by update and remove methods for.
+        // - Search by primary key (name)
+        // - Remove the found festival in both BSTs.
+        return null;   
+    }
 }
