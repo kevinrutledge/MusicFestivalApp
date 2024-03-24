@@ -1,13 +1,11 @@
-8bb9d2ac-577c-48d6-b430-2c234c725f13
-thecahills@gmail.com
+Stacey Cahill
 2024-03-16
 1
 When We Were Young Festival 2024
 false
 1
 
-adb04a86-1d35-4cba-be18-1cdd61a6c215
-thecahills@gmail.com
+Stacey Cahill
 2024-01-22
 2
 Coachella Music Festival 2024
@@ -15,32 +13,28 @@ Lovers & Friends Fest 2024
 true
 1
 
-0c3681d0-76aa-41e6-818d-a7961176b0ce
-kukuchakrabarti@hotmail.com
+Kumari Chakrabarti
 2024-03-17
 1
 Essence Music Festival 2024
 false
 1
 
-16750f30-95e9-4cae-a7a7-85b9b1453595
-jwu@gmail.com
+Jiming Wu
 2024-03-13
 1
 Coachella Music Festival 2024
 false
 3
 
-9dad560d-c3c7-498e-ac57-8618b9fe6350
-bradisrad@gmail.com
+Brad Feinman
 2024-03-16
 1
 EDC Las Vegas 2024
 false
 1
 
-c4e050f2-6767-4d73-9073-024173a40bcb
-jwu@gmail.com
+Jiming Wu
 2024-02-14
 2
 Lovers & Friends Fest 2024
@@ -48,8 +42,7 @@ Summerfest 2024
 true
 1
 
-d45d5a09-f78e-4984-aed5-487ca495f63d
-thecahills@gmail.com
+Stacey Cahill
 2024-03-13
 3
 Sonic Temple Festival 2024
@@ -58,8 +51,7 @@ Hard Summer 2024
 false
 2
 
-d790997d-af96-40b3-8a1b-86eeb811138d
-leaperez@yahoo.com
+Leanna Perez
 2024-01-16
 2
 Stagecoach Country Music Festival 2024
@@ -67,8 +59,7 @@ Summerfest 2024
 true
 1
 
-9b2e8aae-0de4-4199-85d9-772a6a6a73ba
-yue95@yahoo.com
+Xiaohang Yue
 2024-03-13
 2
 Sunfest 2024
@@ -76,8 +67,7 @@ EDC Las Vegas 2024
 false
 1
 
-9b4f0ce9-e3fe-4fdb-948d-6f851d2eb754
-i_am_ally@comcast.net
+Ally Gu
 2024-03-08
 2
 Bottlerock Napa Valley 2024
@@ -85,16 +75,14 @@ Essence Music Festival 2024
 false
 1
 
-aa9a4f1e-dd89-420c-a071-c5332196795c
-jaime.boy.brown@hotmail.com
+James Brown
 2024-02-14
 1
 Coachella Music Festival 2024
 true
 3
 
-48968d72-00b3-4601-9233-d26747e8fd61
-yue95@yahoo.com
+Xiaohang Yue
 2024-01-04
 3
 Ultra Music Festival Miami 2024
@@ -103,8 +91,7 @@ Lovers & Friends Fest 2024
 true
 1
 
-1cd6f48a-4f4f-4be6-8684-4e134919463f
-jaime.boy.brown@hotmail.com
+James Brown
 2024-03-14
 2
 Bottlerock Napa Valley 2024
@@ -112,24 +99,21 @@ Summerfest 2024
 false
 1
 
-c2daea96-552e-467c-a037-2970c1a96342
-jwu@gmail.com
+Jiming Wu
 2024-01-26
 1
 Ultra Music Festival Miami 2024
 true
 1
 
-8a53eb8d-ec74-4d12-b668-428fea0f7955
-i_am_ally@comcast.net
+Ally Gu
 2024-02-25
 1
 Coachella Music Festival 2024
 true
 1
 
-18b99f24-5953-4f7f-aba6-5828d31098c0
-jwu@gmail.com
+Jiming Wu
 2024-03-16
 2
 New Orleans Jazz & Heritage Festival 2024
@@ -137,8 +121,7 @@ EDC Las Vegas 2024
 false
 2
 
-08c3da32-f501-4bea-81ec-b1440978ef90
-jaime.boy.brown@hotmail.com
+James Brown
 2024-02-21
 2
 Sick New World 2024
