@@ -121,17 +121,6 @@ public class DataLoader {
         try {
             Scanner scanner = new Scanner(new File("orders.txt"));
             while (scanner.hasNextLine()) {
-                // orderID
-                // email address
-                // date of purchase
-                // N = number of festivals in purchase
-                // 1. first festival
-                // ...
-                // N. Nth festival
-                // isShipped boolean
-                // shipping type enum
-
-                // [first, last]
                 String orderID = scanner.nextLine();
                 String emailAddress = scanner.nextLine();
                 String dateOfPurchase = scanner.nextLine();
@@ -147,12 +136,23 @@ public class DataLoader {
                     .ShippingSpeed
                     .fromCode(Integer.parseInt(scanner.nextLine()));
 
+                LinkedList<Festival> festivalList = new LinkedList<>();
+
+                for (int i = 0; i < festivalNames.length; i++) {
+                    Festival placeholderFestival = new Festival(festivalNames[i]);
+                    Festival result = festivals.search(placeholderFestival, new NameComparator());
+                    if (result != null) {
+                        festivalList.addLast(result);
+                    } else {
+                        throw new IllegalArgumentException("populateOrders(): Festival with name " + festivalNames[i] + " not found.");
+                    }
+                }
+
                 Order order = new Order(
                         orderID,
                         emailAddress,
                         dateOfPurchase,
-                        /** TODO */
-                        new LinkedList<>(),
+                        festivalList,
                         shippingSpeed,
                         isShipped
                 );
