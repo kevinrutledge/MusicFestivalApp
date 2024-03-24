@@ -5,7 +5,7 @@
 Always create a new branch for your work. Do not work directly on the main branch. Name your branch appropriately based on the feature or fix you are working on.
 
    ```bash
-   git checkout -b feature/<your-feature-name>
+   git checkout -b feature/your-feature-name
    ```
 
 Or if you're fixing a bug:
