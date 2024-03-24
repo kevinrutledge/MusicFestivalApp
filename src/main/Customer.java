@@ -59,16 +59,16 @@ public class Customer extends User {
         return result;
     }
 
-    public Order getShippedOrderByCustomerName() {
-        Order placeholderOrder = new Order(firstName, lastName);
+    public Order getShippedOrderByCustomerEmail() {
+        Order placeholderOrder = new Order(email);
         int index = shippedOrders.findIndex(placeholderOrder);
         unshippedOrders.advanceIteratorToIndex(index);
         Order result = unshippedOrders.getIterator();
         return result;
     }
 
-    public Order getunshippedOrderByCustomerName() {
-        Order placeholderOrder = new Order(firstName, lastName);
+    public Order getunshippedOrderByCustomerEmail() {
+        Order placeholderOrder = new Order(email);
         int index = unshippedOrders.findIndex(placeholderOrder);
         unshippedOrders.advanceIteratorToIndex(index);
         Order result = unshippedOrders.getIterator();

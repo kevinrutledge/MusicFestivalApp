@@ -9,8 +9,8 @@ public class MusicFestival {
     private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
     private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
     private static HashTable<User> employees = new HashTable<>(100); // HashTable for employees
-    private static Heap<Order> shippedOrders; // Heap for shipped orders.
-    private static Heap<Order> unshippedOrders; // Heap for unshipped orders.
+    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new OrderIdComparator()); // Heap for shipped orders.
+    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new OrderIdComparator()); // Heap for unshipped orders.
 
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
@@ -21,7 +21,7 @@ public class MusicFestival {
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
         DataLoader.populateUsers(users, employees);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(scanner);
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName);
 
         System.out.println("Welcome to MusicFestivalApp\n");
         // log in
