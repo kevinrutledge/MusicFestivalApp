@@ -59,20 +59,12 @@ public class Customer extends User {
         return result;
     }
 
-    public Order getShippedOrderByCustomerName() {
-        Order placeholderOrder = new Order(firstName, lastName);
-        int index = shippedOrders.findIndex(placeholderOrder);
-        unshippedOrders.advanceIteratorToIndex(index);
-        Order result = unshippedOrders.getIterator();
-        return result;
+    public LinkedList<Order> getShippedOrderByCustomerName() {
+        return shippedOrders;
     }
 
-    public Order getunshippedOrderByCustomerName() {
-        Order placeholderOrder = new Order(firstName, lastName);
-        int index = unshippedOrders.findIndex(placeholderOrder);
-        unshippedOrders.advanceIteratorToIndex(index);
-        Order result = unshippedOrders.getIterator();
-        return result;
+    public LinkedList<Order> getUnshippedOrderByCustomerName() {
+        return unshippedOrders;
     }
 
     // Setters
@@ -125,6 +117,13 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: ").append(firstName).append(" ").append(lastName).append("\n");
+        sb.append("Email: ").append(email).append("\n");
+        sb.append("City: ").append(city).append("\n");
+        sb.append("Zip").append(zip).append("\n");
+        sb.append("Shipped Orders: ").append("\n").append(shippedOrders.toString()).append("\n");
+        sb.append("Unshipped Orders: ").append("\n").append(unshippedOrders.toString()).append("\n");
+        return sb.toString();
     }
 }

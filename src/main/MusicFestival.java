@@ -264,9 +264,9 @@ public class MusicFestival {
                     }
                     // prints shipped then unshipped orders
                     System.out.println("Shipped Orders:");
-                    user.getShippedOrderByCustomerName();
+                    System.out.print(user.getShippedOrderByCustomerName());
                     System.out.println("Unshipped Orders:");
-                    user.getunshippedOrderByCustomerName();
+                    System.out.print(user.getUnshippedOrderByCustomerName());
                     break;
                 case 5: // quit
                     quit = true;
