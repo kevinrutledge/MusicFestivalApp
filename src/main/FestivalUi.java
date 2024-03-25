@@ -7,9 +7,11 @@ import java.util.Scanner;
  */
 public class FestivalUi {
 
+    private static final NameComparator NAME_COMPARATOR = new NameComparator();
+    private static final StartDateCityComparator START_DATE_CITY_COMPARATOR = new StartDateCityComparator();    
+
     static void searchFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity) {
-        NameComparator nameComparator = new NameComparator();
-        StartDateCityComparator startDateCityComparator = new StartDateCityComparator();
+
         int choice = -1;
         while (choice != 3) {
             System.out.println("How would you like to search for festivals?");
@@ -27,7 +29,7 @@ public class FestivalUi {
                     System.out.print("Please enter the name of the festival: ");
                     String festivalName = scanner.nextLine();
                     Festival festival = new Festival(festivalName);
-                    Festival foundByName = byName.search(festival, nameComparator);
+                    Festival foundByName = byName.search(festival, NAME_COMPARATOR);
                     if (foundByName != null) {
                         System.out.println("\nHere is the information of the festival: ");
                         System.out.println();
@@ -43,7 +45,7 @@ public class FestivalUi {
                     System.out.print("Please enter the city: ");
                     String city = scanner.nextLine();
                     Festival festivalToSearch = new Festival(startDate, city);
-                    Festival foundByStartDateCity = byStartDateCity.search(festivalToSearch, startDateCityComparator);
+                    Festival foundByStartDateCity = byStartDateCity.search(festivalToSearch, START_DATE_CITY_COMPARATOR);
                     if (foundByStartDateCity != null) {
                         System.out.println("\nHere is the information of the festival: ");
                         System.out.println();
@@ -94,35 +96,32 @@ public class FestivalUi {
     }
 
     static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // TODO - heejung
         // 1. Check if user is manager
-        // 2. Insert new festival in both BSTs.
+        // 2. Read in user input for the new festival product.
+        // 3. Insert new festival in both BSTs.
     }
 
     static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // TODO - heejung
         // 1. Check if user is manager
-        // 2. Search by primary key (name)
-        // 3. Remove the found festival in both BSTs.
-        // 4. Mutate the found festival.
-        // 5. Insert festival to both BSTs.
+        // 2. Read in user input for the name of festival to update.
+        // 3. Call findAndRemove. The returned Festival object is the search result. Make sure to check null for not_found cases.
+        // 4. Mutate the found festival using Festival copy constructor (see Festival.java).
+        // 5. Insert festival to both BSTs to finish update.
     }
 
     static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // TODO - heejung
         // 1. Check if user is manager
-        // 2. Search by primary key (name)
-        // 3. Remove the found festival in both BSTs.
-        // 4. Mutate the found festival.
-        // 5. Insert festival to both BSTs.        
+        // 2. Read in user input for the name of festival to remove.
+        // 3. Call findAndRemove. The returned Festival object is the search result. Make sure to check null for not_found cases.
     }
 
     @SuppressWarnings("unused")
-    private static Festival findAndRemove(BST<Festival> byName, BST<Festival> byStartDateCity) {
-        // TODO - heejung
-        // Helper method to be used by update and remove methods for.
-        // - Search by primary key (name)
-        // - Remove the found festival in both BSTs.
-        return null;   
+    private static Festival findAndRemove(String festivalName, BST<Festival> byName, BST<Festival> byStartDateCity) {
+        Festival found = byName.search(new Festival(festivalName), NAME_COMPARATOR);
+        if (found != null) {
+            byName.remove(found, NAME_COMPARATOR);
+            byStartDateCity.remove(found, START_DATE_CITY_COMPARATOR);
+        }
+        return found;   
     }
 }
