@@ -43,7 +43,8 @@ public class DataLoader {
         }
     }
 
-    static void populateUsers(HashTable<User> users, HashTable<User> employees) {
+    static void populateUsers(HashTable<User> users, HashTable<User> employees, BST<Customer> customersByName) {
+        UserNameComparator userNameComparator = new UserNameComparator();
         // Load user data from file
         try {
             Scanner scanner = new Scanner(new File("users.txt"));
@@ -71,6 +72,7 @@ public class DataLoader {
                             zip
                     );
                     users.add(customer);
+                    customersByName.insert(customer, userNameComparator);
                 } else {
                     boolean isManager = Boolean.parseBoolean(scanner.nextLine());
                     if (isManager) {
@@ -115,8 +117,10 @@ public class DataLoader {
     static void populateOrders(
             Heap<Order> shippedOrders,
             Heap<Order> unShippedOrders,
-            BST<Festival> festivals
+            BST<Festival> festivals,
+            BST<Customer> customersByName
     ) {
+        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
         try {
             Scanner scanner = new Scanner(new File("orders.txt"));
             while (scanner.hasNextLine()) {
@@ -139,6 +143,26 @@ public class DataLoader {
                 int shippingCode = Integer.parseInt(scanner.nextLine());
                 Order.ShippingSpeed shippingSpeed = Order.ShippingSpeed.fromCode(shippingCode);
 
+                /**
+                 * Set up customer in order to populate their
+                 * unshippedOrders or shippedOrders variables
+                 */
+                Customer customerPlaceholder = new Customer(
+                        names[0],
+                        names[1],
+                        "",
+                        "",
+                        false,
+                        "",
+                        "",
+                        "",
+                        ""
+                );
+                Customer customer = customersByName.search(customerPlaceholder, userNameComparator);
+                if (customer == null) {
+                    throw new IllegalArgumentException("populateOrders(): customer with name " + customerPlaceholder.getFullName() + " does not exist.");
+                }
+
                 Order order = new Order(
                         names[0],
                         names[1],
@@ -149,8 +173,10 @@ public class DataLoader {
                 );
 
                 if (isShipped) {
+                    customer.addShippedOrder(order);
                     shippedOrders.insert(order);
                 } else {
+                    customer.addUnshippedOrder(order);
                     unShippedOrders.insert(order);
                 }
 

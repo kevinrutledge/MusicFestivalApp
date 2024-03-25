@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Comparator;
+
 public abstract class User {
     protected String firstName;
     protected String lastName;
@@ -68,6 +70,10 @@ public abstract class User {
         this.isEmployee = isEmployee;
     }
 
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     // Abstract methods
     public boolean passwordMatch(String anotherPassword) {
         return this.password.equals(anotherPassword);
@@ -81,5 +87,12 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Math.abs(email.hashCode());
+    }
+}
+
+class UserNameComparator<T extends User> implements Comparator<T> {
+    @Override
+    public int compare(T user1, T user2) {
+        return user1.getFullName().compareTo(user2.getFullName());
     }
 }
