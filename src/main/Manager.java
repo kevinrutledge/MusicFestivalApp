@@ -11,7 +11,7 @@ public class Manager extends Employee {
     }
 
     public Manager(String firstName, String lastName, String login, String password,
-                   boolean isEmployee, boolean isManager) {
+            boolean isEmployee, boolean isManager) {
         super(firstName, lastName, login, password, isEmployee, isManager);
     }
 
@@ -22,5 +22,13 @@ public class Manager extends Employee {
     }
 
     public void removeFestival(Festival festival) {
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Manager)) return false;
+        Manager that = (Manager) other;
+        return this.email.equals(that.email);
     }
 }

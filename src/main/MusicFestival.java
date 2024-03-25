@@ -59,7 +59,7 @@ public class MusicFestival {
         // loops until user is logged in
         do {
             System.out.print(
-                    "Enter 1 to log in as a customer, 2 to create a new account, 3 to log in as guest, 4 to log in as employee: ");
+                    "Enter 1 to log in as a customer, 2 to create a new account, 3 to log in as guest, 4 to log in as employee, 5 to log in as manager: ");
             loginChoice = scanner.nextInt();
             scanner.nextLine();
             switch (loginChoice) {
@@ -119,26 +119,42 @@ public class MusicFestival {
                     loggedin = true;
                     return user;
                 case 3: // log in as guest
-                    System.out.println("Logging in as guest");
-                    user = new Customer("guest@email.com");
-                    System.out.println("Welcome Guest");
-                    return user;
+                System.out.println("Logging in as guest");
+                user = new Customer("guest@email.com");
+                System.out.println("Welcome Guest");
+                return user;
 
                 case 4: // log in as employee
-                    System.out.println("Logging in as employee");
+                System.out.println("Logging in as employee");
+                System.out.print("Enter your email: ");
+                email = scanner.nextLine();
+                System.out.print("Enter your password: ");
+                password = scanner.nextLine();
+                user = new Employee(email, password);
+                user = employees.get(user);
+                if (user != null) {
+                    System.out.printf("Welcome employee %s %s, ", user.getFirstName(), user.getLastName());
+                    loggedin = true;
+                    return user;
+                }
+                System.out.println("Invalid email password combination");
+
+                break;
+                case 5: // log in as manager
+                    System.out.println("Logging in as manager");
                     System.out.print("Enter your email: ");
                     email = scanner.nextLine();
                     System.out.print("Enter your password: ");
                     password = scanner.nextLine();
-                    user = new Employee(email, password);
+                    user = new Manager(email, password);
                     user = employees.get(user);
                     if (user != null) {
-                        System.out.printf("Welcome employee %s %s, ", user.getFirstName(), user.getLastName());
+                        System.out.printf("Welcome manager %s %s, ", user.getFirstName(), user.getLastName());
                         loggedin = true;
                         return user;
                     }
                     System.out.println("Invalid email password combination");
-
+    
                     break;
 
                 default:
