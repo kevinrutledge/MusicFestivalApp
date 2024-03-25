@@ -142,7 +142,7 @@ public class MusicFestival {
                 break;
                 case 5: // log in as manager
                     System.out.println("Logging in as manager");
-                    System.out.print("Enter your email: ");5
+                    System.out.print("Enter your email: ");
                     email = scanner.nextLine();
                     System.out.print("Enter your password: ");
                     password = scanner.nextLine();
