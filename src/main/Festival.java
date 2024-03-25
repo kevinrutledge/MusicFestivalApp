@@ -160,8 +160,8 @@ public class Festival {
         sb.append("Price: $").append(String.format("%.2f", price)).append("\n");
         sb.append("Location: ").append(city).append(", ").append(state).append("\n");
         sb.append("Tickets Remaining: ").append(ticketsRemaining).append("\n");
-        sb.append("Genres: ").append(genre.toString()).append("\n"); // More readable for ArrayList of Strings
-        sb.append("Featured Artists: ").append(featuredArtistLineup.toString()).append("\n");
+        sb.append("Genres: ").append("\n").append(genre.toString()).append("\n"); // More readable for ArrayList of Strings
+        sb.append("Featured Artists: ").append("\n").append(featuredArtistLineup.toString()).append("\n");
         return sb.toString();
     }
 

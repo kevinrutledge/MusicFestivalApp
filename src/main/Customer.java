@@ -101,6 +101,20 @@ public class Customer extends User {
         unshippedOrders.addLast(order);
     }
 
+    /**
+     * Move an order from the customer's unshipped list to their shipped list
+     * @param order
+     */
+    public void shipOrder(Order order) {
+        int index = unshippedOrders.findIndex(order);
+        if (index == -1) {
+            throw new IllegalArgumentException("shipOrder(): Order not found in unshipped orders for customer " + getFullName() + ": " + order);
+        }
+        unshippedOrders.advanceIteratorToIndex(index);
+        unshippedOrders.removeIterator();
+        addShippedOrder(order);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

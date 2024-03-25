@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -96,9 +97,54 @@ public class FestivalUi {
     }
 
     static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // 1. Check if user is manager
-        // 2. Read in user input for the new festival product.
-        // 3. Insert new festival in both BSTs.
+    	if(isManager(user)) {
+    		System.out.println("USER AUTHENTICATED. You are authorized to add a new festival.");
+    		
+    		System.out.println("Enter the name of the festival: ");
+    		String name = scanner.nextLine();
+ 
+            System.out.print("Please enter the start date of the festival (YYYY-MM-DD): ");
+            String startDate = scanner.nextLine();
+            
+            System.out.println("Enter the price per ticket: ");
+            double price = Double.parseDouble(scanner.nextLine());
+            
+            System.out.println("Enter the city of the festival:");
+            String city = scanner.nextLine();
+            
+            System.out.println("Enter the state initials of the festival:");
+            String state = scanner.nextLine();
+            
+            System.out.println("Enter the amount of ticket remaining: ");
+            int tickets = Integer.parseInt(scanner.nextLine());
+            
+            System.out.println("Enter featured artists seperated by a comma (John Doe,Jane Doe): ");
+            String artistInput = scanner.nextLine();
+            //Splits the names by comma
+            String[] artists = artistInput.split(",");
+            ArrayList<String> featuredArtists = new ArrayList<>();
+            for(String artist: artists) { 
+            	featuredArtists.add(artist.trim());
+            }
+            
+            
+            System.out.println("Enter the genres seperated by a comma (Rock,Hip Hop,Jazz): ");
+            String genreInput = scanner.nextLine();
+            //Splits the genres by comma
+            String[] genreArray = genreInput.split(",");
+            ArrayList<String> genres = new ArrayList<>();
+            
+            for(String genre: genreArray) { 
+            	genres.add(genre.trim());
+            }
+            
+            Festival newFestival = new Festival(name, startDate, price, city, state, tickets, genres, featuredArtists);
+            
+            byName.insert(newFestival, NAME_COMPARATOR);
+            byStartDateCity.insert(newFestival, START_DATE_CITY_COMPARATOR);   
+    	} else {
+    		System.out.println("USER AUTHENTICATION FAILED. You are not authorized to add a festival.");
+    	}
     }
 
     static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
@@ -109,19 +155,51 @@ public class FestivalUi {
         // 5. Insert festival to both BSTs to finish update.
     }
 
-    static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // 1. Check if user is manager
-        // 2. Read in user input for the name of festival to remove.
-        // 3. Call findAndRemove. The returned Festival object is the search result. Make sure to check null for not_found cases.
-    }
+	static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+		if (isManager(user)) {
+			System.out.println("USER AUTHENTICATED. You are authorized to remove a new festival.");
+			boolean found = false;
 
-    @SuppressWarnings("unused")
+			while (!found) {
+				System.out.println("Enter the name of the festival you would like to remove: ");
+				String name = scanner.nextLine();
+
+				Festival removed = findAndRemove(name, byName, byStartDateCity);
+
+				if (removed != null) {
+					System.out.println("Festival was sucessfully removed.");
+					found = true;
+					continue;
+				} else {
+					System.out.println("ERROR. Festival not found.");
+					
+					System.out.println("Enter '1' to try again or anything else to exit: ");
+					String choice = scanner.nextLine();
+					
+					if(choice.equals("1")) {
+						continue;
+					} else {
+						break;
+					}
+				}
+			}
+
+		} else {
+			System.out.println("USER AUTHENTICATION FAILED. You are not authorized to remove a festival.");
+		}
+
+	}
+
     private static Festival findAndRemove(String festivalName, BST<Festival> byName, BST<Festival> byStartDateCity) {
         Festival found = byName.search(new Festival(festivalName), NAME_COMPARATOR);
         if (found != null) {
             byName.remove(found, NAME_COMPARATOR);
             byStartDateCity.remove(found, START_DATE_CITY_COMPARATOR);
         }
-        return found;   
+		return found;
+	}
+
+    private static boolean isManager(User user) {
+        return (user instanceof Employee) && ((Employee) user).getIsManager();
     }
 }

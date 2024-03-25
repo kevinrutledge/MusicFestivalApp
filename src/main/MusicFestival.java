@@ -11,6 +11,14 @@ public class MusicFestival {
     private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
     private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
     private static HashTable<User> employees = new HashTable<>(100); // HashTable for employees
+    // Used to add orders to Customers (since orders are stored by first+last name)
+    // Can also be used by Employees to search for orders by name.
+    // 1. Find customer by name
+    // 2. Get their shipped / unshipped orders.
+    // Can also be used when shipping an order since the Customer's orders need to be updated here
+    // Order contains the customer name, so we can find the Customer here based on that name
+    // and call the shipOrder method to move it from one list to the other.
+    private static BST<Customer> customerByName = new BST<>(new Customer[]{}, new UserNameComparator<>());
     private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
                                                                                                         // shipped
                                                                                                         // orders.
@@ -24,11 +32,10 @@ public class MusicFestival {
         Scanner scanner = new Scanner(System.in);
 
         // Load data from files
-        mergeSort();
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
-        DataLoader.populateUsers(users, employees);
+        DataLoader.populateUsers(users, employees, customerByName);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName);
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customerByName);
 
         System.out.println("Welcome to MusicFestivalApp\n");
         // login(scanner) returns a user object which can be an employee or customer
@@ -93,8 +100,10 @@ public class MusicFestival {
                     user = new Customer(firstName, lastName, email, password, false, address, city, state, zip);
                     // adds new account to hashtable
                     users.add(user);
+                    customerByName.insert((Customer) user, new UserNameComparator<>());
                     // writes new account to users.txt
                     try (FileWriter writer = new FileWriter("users.txt", true)) {
+                        writer.write("\n");
                         writer.write(firstName + " " + lastName + "\n");
                         writer.write(email + "\n");
                         writer.write(password + "\n");
@@ -267,10 +276,5 @@ public class MusicFestival {
                     break;
             }
         } while (!quit);
-    }
-
-    // Method stubs for the functionalities mentioned in the project prompt
-    private static void mergeSort() {
-        // Implement merging sort if necessary
     }
 }
