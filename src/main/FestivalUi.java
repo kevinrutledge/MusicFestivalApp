@@ -97,10 +97,7 @@ public class FestivalUi {
     }
 
     static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // 1. Check if user is manager
-        // 2. Read in user input for the new festival product.
-        // 3. Insert new festival in both BSTs.
-    	if(((Employee) user).getIsManager()) {
+    	if(isManager(user)) {
     		System.out.println("USER AUTHENTICATED. You are authorized to add a new festival.");
     		
     		System.out.println("Enter the name of the festival: ");
@@ -159,11 +156,7 @@ public class FestivalUi {
     }
 
 	static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-		// 1. Check if user is manager
-		// 2. Read in user input for the name of festival to remove.
-		// 3. Call findAndRemove. The returned Festival object is the search result.
-		// Make sure to check null for not_found cases.
-		if (((Employee) user).getIsManager()) {
+		if (isManager(user)) {
 			System.out.println("USER AUTHENTICATED. You are authorized to remove a new festival.");
 			boolean found = false;
 
@@ -197,8 +190,6 @@ public class FestivalUi {
 
 	}
 
-
-    @SuppressWarnings("unused")
     private static Festival findAndRemove(String festivalName, BST<Festival> byName, BST<Festival> byStartDateCity) {
         Festival found = byName.search(new Festival(festivalName), NAME_COMPARATOR);
         if (found != null) {
@@ -207,4 +198,8 @@ public class FestivalUi {
         }
 		return found;
 	}
+
+    private static boolean isManager(User user) {
+        return (user instanceof Employee) && ((Employee) user).getIsManager();
+    }
 }
