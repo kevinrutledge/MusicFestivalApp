@@ -25,6 +25,7 @@ public class MusicFestival {
     private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
                                                                                                           // unshipped
                                                                                                           // orders.
+    private static final NameComparator NAME_COMPARATOR = new NameComparator();
 
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
@@ -37,10 +38,9 @@ public class MusicFestival {
         DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customerByName);
 
         System.out.println("Welcome to MusicFestivalApp\n");
-        // log in, login(scanner) returns a
+        // login(scanner) returns a user object which can be an employee or customer
         User user = login(scanner);
-        // determines if user is a customer or an employee and gives appropriate menu
-        // options
+        // determines if user is a customer or an employee and gives menu options
         if (!user.getIsEmployee()) {
             customerMenu(scanner, (Customer) user); // gives customer menu
         } else if (!((Employee) user).getIsManager()) {
@@ -48,6 +48,7 @@ public class MusicFestival {
         } else {
             // gives manager menu
         }
+        System.out.println("Thank you for using MusicFestivalApp\n");
     }
 
     public static User login(Scanner scanner) {
@@ -71,7 +72,7 @@ public class MusicFestival {
                     user = new Customer(email, password);
                     user = users.get(user);
                     if (user != null) {
-                        System.out.printf("Welcome %s %s\n", user.getFirstName(), user.getLastName());
+                        System.out.printf("Welcome %s %s, ", user.getFirstName(), user.getLastName());
                         loggedin = true;
                         return user;
                     }
@@ -110,11 +111,11 @@ public class MusicFestival {
                         writer.write(address + "\n");
                         writer.write(city + "\n");
                         writer.write(state + "\n");
-                        writer.write(zip + "\n");
+                        writer.write(zip + "\n" + "\n");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    System.out.printf("Welcome %s %s\n", user.getFirstName(), user.getLastName());
+                    System.out.printf("Welcome %s %s, ", user.getFirstName(), user.getLastName());
                     loggedin = true;
                     return user;
                 case 3: // log in as guest
@@ -132,7 +133,7 @@ public class MusicFestival {
                     user = new Employee(email, password);
                     user = employees.get(user);
                     if (user != null) {
-                        System.out.printf("Welcome employee %s %s", user.getFirstName(), user.getLastName());
+                        System.out.printf("Welcome employee %s %s, ", user.getFirstName(), user.getLastName());
                         loggedin = true;
                         return user;
                     }
@@ -155,22 +156,22 @@ public class MusicFestival {
 
     public static void customerMenu(Scanner scanner, Customer user) {
         boolean quit = false;
-        int menuChoice;
+        int menuChoice, shippingChoice;
+        Order order;
         String line;
         do { // loops until quit
 
             System.out.print(
-                    "Enter 1 to search by name, 2 to search by date + city, 3 to place order, 4 to view purchases, 5 to quit: ");
+                    "Enter 1 to search for a festival, 2 to display festivals, 3 to place order, 4 to view purchases, 5 to quit: ");
             menuChoice = scanner.nextInt();
+            System.out.println();
             scanner.nextLine();
             switch (menuChoice) {
-                case 1: // search by name
-                    System.out.print("Enter name to search by: ");
-                    line = scanner.nextLine();
+                case 1: // search by name or date + city
+                    FestivalUi.searchFestival(scanner, festivalsByName, festivalsByStartDateCity);
                     break;
-                case 2: // search by date + city
-                    System.out.print("Enter date + city(example here) to search by: ");
-                    line = scanner.nextLine();
+                case 2: // display festivals
+                    FestivalUi.displayFestival(scanner, festivalsByName, festivalsByStartDateCity);
                     break;
                 case 3: // place order for non-guests only
                     if (((User) user).getEmail() == "guest@email.com") {
@@ -178,13 +179,83 @@ public class MusicFestival {
                         break;
                     }
                     // display festivals by name
+                    FestivalUi.displayFestival(scanner, festivalsByName, festivalsByStartDateCity);
                     // input by name
-                    // place an order of new Order(String orderID, String emailAddress, String
-                    // datePurchased, LinkedList<Festival> orderContents, ShippingSpeed
-                    // shippingSpeed, boolean isShipped)
-                    // customer.addUnshippedOrder(order); always unshipped because it just got
-                    // ordered
-                    // display details
+                    LinkedList<Festival> orders = new LinkedList<>(); // stores festivals to order
+                    do {
+                        System.out.print("Enter name of festival to place an order or type NEXT: ");
+                        line = scanner.nextLine();
+                        if (line.equals("NEXT")) {
+                            System.out.println();
+                            break;
+                        }
+                        Festival searchFestival = new Festival(line);
+                        Festival toOrder = festivalsByName.search(searchFestival, NAME_COMPARATOR);
+                        if (toOrder == null) {
+                            System.out.println("Invalid name");
+                            break;
+                        } else {
+                            System.out.println("Festival details:");
+                            System.out.println(toOrder.toString());
+                            orders.addLast(toOrder); // adds festival to orders
+                        }
+                    } while (line != "EXIT");
+                    // select shipping and create new order object
+                    System.out.println("1. Standard shipping ");
+                    System.out.println("2. Rush shipping  ");
+                    System.out.println("3. Overnight shipping ");
+                    System.out.println("4. Digital shipping ");
+                    System.out.print("Enter value for shipping: ");
+                    shippingChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (shippingChoice) {
+                        case 1:
+                            System.out.println("Standard shipping selected");
+                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                                    Order.ShippingSpeed.STANDARD, false);
+                            break;
+                        case 2:
+                            System.out.println("Rush shipping selected");
+                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                                    Order.ShippingSpeed.RUSH, false);
+                            break;
+                        case 3:
+                            System.out.println("Overnight shipping selected");
+                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                                    Order.ShippingSpeed.OVERNIGHT, false);
+                            break;
+                        case 4:
+                            System.out.println("Digital shipping selected");
+                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                                    Order.ShippingSpeed.DIGITAL, false);
+                            break;
+                        default:
+                            System.out.println("Invalid input, Standard shipping selected");
+                            shippingChoice = 4;
+                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                                    Order.ShippingSpeed.STANDARD, false);
+                            break;
+                    }
+                    // place a new order
+                    user.addUnshippedOrder(order);
+                    // display details of order
+                    System.out.println("Order placed for:");
+                    System.out.println(orders.toString());
+                    // write new order to file
+                    try (FileWriter writer = new FileWriter("orders.txt", true)) {
+                        writer.write(user.getFirstName() + " " + user.getLastName() + "\n");
+                        writer.write("3-28-2024\n");
+                        writer.write(orders.getLength() + "\n");
+                        orders.positionIterator();
+                        for (int i = 0; i < orders.getLength(); i++) {
+                            orders.advanceIteratorToIndex(i);
+                            writer.write(orders.getIterator().getName() + "\n");
+                        }
+                        writer.write("false\n");
+                        writer.write(shippingChoice + "\n" + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 4: // view purchase for non-guests only
                     if (((User) user).getEmail() == "guest@email.com") {
@@ -195,7 +266,7 @@ public class MusicFestival {
                     System.out.println("Shipped Orders:");
                     user.getShippedOrderByCustomerName();
                     System.out.println("Unshipped Orders:");
-                    user.getShippedOrderByCustomerName();
+                    user.getunshippedOrderByCustomerName();
                     break;
                 case 5: // quit
                     quit = true;
