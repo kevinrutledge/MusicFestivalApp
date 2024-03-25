@@ -158,11 +158,45 @@ public class FestivalUi {
         // 5. Insert festival to both BSTs to finish update.
     }
 
-    static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
-        // 1. Check if user is manager
-        // 2. Read in user input for the name of festival to remove.
-        // 3. Call findAndRemove. The returned Festival object is the search result. Make sure to check null for not_found cases.
-    }
+	static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+		// 1. Check if user is manager
+		// 2. Read in user input for the name of festival to remove.
+		// 3. Call findAndRemove. The returned Festival object is the search result.
+		// Make sure to check null for not_found cases.
+		if (((Employee) user).getIsManager()) {
+			System.out.println("USER AUTHENTICATED. You are authorized to remove a new festival.");
+			boolean found = false;
+
+			while (!found) {
+				System.out.println("Enter the name of the festival you would like to remove: ");
+				String name = scanner.nextLine();
+
+				Festival removed = findAndRemove(name, byName, byStartDateCity);
+
+				if (removed != null) {
+					System.out.println("Festival was sucessfully removed.");
+					found = true;
+					continue;
+				} else {
+					System.out.println("ERROR. Festival not found.");
+					
+					System.out.println("Enter '1' to try again or anything else to exit: ");
+					String choice = scanner.nextLine();
+					
+					if(choice.equals("1")) {
+						continue;
+					} else {
+						break;
+					}
+				}
+			}
+
+		} else {
+			System.out.println("USER AUTHENTICATION FAILED. You are not authorized to remove a festival.");
+		}
+
+	}
+
 
     @SuppressWarnings("unused")
     private static Festival findAndRemove(String festivalName, BST<Festival> byName, BST<Festival> byStartDateCity) {
@@ -171,6 +205,6 @@ public class FestivalUi {
             byName.remove(found, NAME_COMPARATOR);
             byStartDateCity.remove(found, START_DATE_CITY_COMPARATOR);
         }
-        return found;   
-    }
+		return found;
+	}
 }
