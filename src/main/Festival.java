@@ -34,6 +34,34 @@ public class Festival {
         this.startDateCity = startDate + ", " + city;
     }
 
+    /*
+     * Copy constructor to update remaining tickets.
+     */
+    public Festival(Festival festival, int ticketsRemaining) {
+        this.ticketsRemaining = ticketsRemaining;
+
+        this.name = festival.name;
+        this.startDate = festival.startDate;
+        this.price = festival.price;
+        this.city = festival.city;
+        this.state = festival.state;
+        this.startDateCity = festival.startDateCity;
+    }
+
+    /*
+     * Copy constructor to update prices.
+     */
+    public Festival(Festival festival, double price) {
+        this.price = price;
+
+        this.name = festival.name;
+        this.startDate = festival.startDate;
+        this.city = festival.city;
+        this.state = festival.state;
+        this.ticketsRemaining = festival.ticketsRemaining;
+        this.startDateCity = festival.startDateCity;
+    }    
+
     public Festival(String name, String startDate, double price, String city, String state,
                     int ticketsRemaining, ArrayList<String> genre, ArrayList<String> featuredArtistLineup) {
         this.name = name;
