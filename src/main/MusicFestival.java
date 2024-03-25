@@ -23,7 +23,6 @@ public class MusicFestival {
         Scanner scanner = new Scanner(System.in);
 
         // Load data from files
-        mergeSort();
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
         DataLoader.populateUsers(users, employees);
         DataLoader.authenticateUsers(scanner);
@@ -196,10 +195,5 @@ public class MusicFestival {
                     break;
             }
         } while (!quit);
-    }
-
-    // Method stubs for the functionalities mentioned in the project prompt
-    private static void mergeSort() {
-        // Implement merging sort if necessary
     }
 }

@@ -162,7 +162,7 @@ public class Order {
         sb.append("Order ID: ").append(orderID).append("\n");
         sb.append("Name: ").append(firstName).append(" ").append(lastName).append("\n");
         sb.append("Date Purchased: ").append(datePurchased).append("\n");
-        sb.append("Music Festivals: ").append(orderContents.toString()).append("\n");
+        sb.append("Music Festivals: ").append("\n").append(orderContents.toString()).append("\n");
         sb.append("Price: $").append(String.format("%.2f", totalPrice)).append("\n");
         sb.append("Shipping Speed: ").append(shippingSpeed).append("\n");
         sb.append("Shipping Status: ").append(isShipped).append("\n");
