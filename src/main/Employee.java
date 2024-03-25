@@ -31,4 +31,12 @@ public class Employee extends User {
     // Update order status
     public void updateOrderStatus() {
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Employee)) return false;
+        Employee that = (Employee) other;
+        return this.email.equals(that.email);
+    }
 }
