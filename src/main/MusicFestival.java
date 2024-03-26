@@ -18,7 +18,7 @@ public class MusicFestival {
     // Can also be used when shipping an order since the Customer's orders need to be updated here
     // Order contains the customer name, so we can find the Customer here based on that name
     // and call the shipOrder method to move it from one list to the other.
-    private static LinkedList<Customer> customers = new LinkedList<>();
+    private static BST<Customer> customerByName = new BST<>(new Customer[]{}, new UserNameComparator<>());
     private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
                                                                                                         // shipped
                                                                                                         // orders.
@@ -26,36 +26,34 @@ public class MusicFestival {
                                                                                                           // unshipped
                                                                                                           // orders.
     private static final NameComparator NAME_COMPARATOR = new NameComparator();
-
     public static void main(String[] args) throws IOException {
         // Create a Scanner object to read from the console
         Scanner scanner = new Scanner(System.in);
-
         // Load data from files
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
-        DataLoader.populateUsers(users, employees, customers);
+        DataLoader.populateUsers(users, employees, customerByName);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customers);
-
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customerByName);
+       
+       
         System.out.println("Welcome to MusicFestivalApp\n");
         // login(scanner) returns a user object which can be an employee or customer
         User user = login(scanner);
         // determines if user is a customer or an employee and gives menu options
         if (!user.getIsEmployee()) {
-            customerMenu(scanner, (Customer) user); // gives customer menu
-        } else if (!((Employee) user).getIsManager()) {
-            // gives employee menu
-        } else {
-            // gives manager menu
+            customerMenu(scanner, (Customer) user); // Gives customer menu
+          } else if (((Employee) user).getIsManager()) {
+            // Give manager menu
+          } else {
+            employeeMenu(scanner, (Employee) user);
+          }
+          System.out.println("Thank you for using MusicFestivalApp\n");
         }
-        System.out.println("Thank you for using MusicFestivalApp\n");
-    }
-
     public static User login(Scanner scanner) {
         boolean loggedin = false;
         int loginChoice;
         String firstName, lastName, email, password, address, city, state, zip;
-        User user = null;
+        User user;
         // loops until user is logged in
         do {
             System.out.print(
@@ -69,16 +67,14 @@ public class MusicFestival {
                     email = scanner.nextLine();
                     System.out.print("Enter your password: ");
                     password = scanner.nextLine();
-                    User placeholderUser = new Customer(email);
-                    user = users.get(placeholderUser);
-                    if (user != null && user.passwordMatch(password)) {
+                    user = new Customer(email, password);
+                    user = users.get(user);
+                    if (user != null) {
                         System.out.printf("Welcome %s %s, ", user.getFirstName(), user.getLastName());
                         loggedin = true;
                         return user;
-                    } else {
-                        System.out.println("Invalid email password combination");
-                        user = null;
                     }
+                    System.out.println("Invalid email password combination");
                     break;
                 case 2: // create new account
                     System.out.println("Creating new account");
@@ -101,7 +97,7 @@ public class MusicFestival {
                     user = new Customer(firstName, lastName, email, password, false, address, city, state, zip);
                     // adds new account to hashtable
                     users.add(user);
-                    customers.addLast((Customer) user);
+                    customerByName.insert((Customer) user, new UserNameComparator<>());
                     // writes new account to users.txt
                     try (FileWriter writer = new FileWriter("users.txt", true)) {
                         writer.write("\n");
@@ -124,7 +120,6 @@ public class MusicFestival {
                 user = new Customer("guest@email.com");
                 System.out.println("Welcome Guest");
                 return user;
-
                 case 4: // log in as employee
                 System.out.println("Logging in as employee");
                 System.out.print("Enter your email: ");
@@ -139,7 +134,6 @@ public class MusicFestival {
                     return user;
                 }
                 System.out.println("Invalid email password combination");
-
                 break;
                 case 5: // log in as manager
                     System.out.println("Logging in as manager");
@@ -155,9 +149,7 @@ public class MusicFestival {
                         return user;
                     }
                     System.out.println("Invalid email password combination");
-    
-                    break;
-
+                     break;
                 default:
                     System.out.println("Invalid input");
                     break;
@@ -168,16 +160,13 @@ public class MusicFestival {
         user = new Customer("guest@email.com");
         System.out.println("Welcome Guest");
         return user;
-
     }
-
     public static void customerMenu(Scanner scanner, Customer user) {
         boolean quit = false;
         int menuChoice, shippingChoice;
         Order order;
         String line;
         do { // loops until quit
-
             System.out.print(
                     "Enter 1 to search for a festival, 2 to display festivals, 3 to place order, 4 to view purchases, 5 to quit: ");
             menuChoice = scanner.nextInt();
@@ -191,7 +180,7 @@ public class MusicFestival {
                     FestivalUi.displayFestival(scanner, festivalsByName, festivalsByStartDateCity);
                     break;
                 case 3: // place order for non-guests only
-                    if (((User) user).getEmail().equals("guest@email.com")) {
+                    if (((User) user).getEmail() == "guest@email.com") {
                         System.out.println("Ordering is not available to guests");
                         break;
                     }
@@ -216,7 +205,7 @@ public class MusicFestival {
                             System.out.println(toOrder.toString());
                             orders.addLast(toOrder); // adds festival to orders
                         }
-                    } while (!line.equals("EXIT"));
+                    } while (line != "EXIT");
                     // select shipping and create new order object
                     System.out.println("1. Standard shipping ");
                     System.out.println("2. Rush shipping  ");
@@ -254,9 +243,7 @@ public class MusicFestival {
                             break;
                     }
                     // place a new order
-                    order.setOrderID("" + Order.generateOrderID());
                     user.addUnshippedOrder(order);
-                    unshippedOrders.insert(order);
                     // display details of order
                     System.out.println("Order placed for:");
                     System.out.println(orders.toString());
@@ -296,4 +283,144 @@ public class MusicFestival {
             }
         } while (!quit);
     }
-}
+    public static void employeeMenu(Scanner scanner, Employee user) {
+        boolean quit = false;
+        int menuChoice;
+        do {
+            System.out.print(
+                    "Enter 1 to Search for an Order by ID, 2 to Search by Customer Name, " +
+                            "3 to View Order with Highest Priority, 4 to View All Orders Sorted by Priority, " +
+                            "5 to Ship an Order, 6 to Quit and Write to a File: ");
+            menuChoice = scanner.nextInt();
+            scanner.nextLine();
+            switch (menuChoice) {
+                case 1: // Search for an Order by ID
+                    System.out.print("Enter the order ID to search: ");
+                    String orderID = scanner.nextLine();
+                    // Search shipped orders
+                    Order foundOrder = null;
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        if (shippedOrders.getElement(i).getOrderID().equals(orderID)) {
+                            foundOrder = shippedOrders.getElement(i);
+                            break;
+                        }
+                    }
+                    // Search unshipped orders if not found
+                    if (foundOrder == null) {
+                        for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                            if (unshippedOrders.getElement(i).getOrderID().equals(orderID)) {
+                                foundOrder = unshippedOrders.getElement(i);
+                                break;
+                            }
+                        }
+                    }
+                    if (foundOrder != null) {
+                        System.out.println("Order found: " + foundOrder);
+                    } else {
+                        System.out.println("Order not found.");
+                    }
+                    break;
+                case 2: // Search by Customer Name
+                    System.out.print("Enter the customer's first name: ");
+                    String firstName = scanner.nextLine();
+                    System.out.print("Enter the customer's last name: ");
+                    String lastName = scanner.nextLine();
+                    boolean found = false;
+                    // Search shipped orders
+                    List<Order> matchingOrders = new ArrayList<>();
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                       Order order = shippedOrders.getElement(i);
+                       if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
+                           matchingOrders.add(order);
+                       }
+                    }
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                       Order order = unshippedOrders.getElement(i);
+                       if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
+                           matchingOrders.add(order);
+                       }
+                    }
+                    if (matchingOrders.isEmpty()) {
+                        System.out.println("No orders found for the customer.");
+                    } else {
+                        System.out.println("Found orders for the customer:");
+                        for (Order order : matchingOrders) {
+                            System.out.println(order);
+                        }
+                    }
+                    break;
+                case 3: // View Order with Highest Priority
+                    Order highestPriorityOrder = null;
+                      for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                          Order order = shippedOrders.getElement(i);
+                          if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                              highestPriorityOrder = order;
+                          }
+                      }
+                      for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                          Order order = unshippedOrders.getElement(i);
+                          if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                              highestPriorityOrder = order;
+                          }
+                      }
+                      if (highestPriorityOrder != null) {
+                          System.out.println("Order with highest priority: " + highestPriorityOrder);
+                      } else {
+                          System.out.println("No orders found.");
+                      }
+                      break;
+                case 4: // View All Orders Sorted by Priority
+                    List<Order> allOrders = new ArrayList<>();
+                      for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                          allOrders.add(shippedOrders.getElement(i));
+                      }
+                      for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                          allOrders.add(unshippedOrders.getElement(i));
+                      }
+                      Collections.sort(allOrders, new PriorityComparator());
+                      System.out.println("All Orders Sorted by Priority:");
+                      for (Order order : allOrders) {
+                          System.out.println(order);
+                      }
+                      break;
+                case 5: // Ship an Order
+                    System.out.println("Enter the order ID to ship: ");
+                    String orderID1 = scanner.nextLine();
+                    boolean orderShipped = false;
+                    // Check and update shipped orders
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        Order order = shippedOrders.getElement(i);
+                        if (order.getOrderID().equalsIgnoreCase(orderID1)) {
+                            order.setIsShipped(true);
+                            orderShipped = true;
+                            System.out.println("Order already shipped.");
+                        }
+                    }
+                    // Check and update unshipped orders
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                        Order order = unshippedOrders.getElement(i);
+                        if (order.getOrderID().equalsIgnoreCase(orderID1)) {
+                            order.setIsShipped(true);
+                            orderShipped = true;
+                            System.out.println("Order shipped successfully.");
+                        }
+                    }
+                    // no orders
+                    if (!orderShipped) {
+                        System.out.println("Order not found.");
+                    }
+                    break;
+                case 6: // Quit and Write to a File
+                    // Code to write to file goes here
+                    System.out.println("Writing to file and quitting...");
+                    quit = true;
+                    break;
+                default:
+                    System.out.println("Invalid input");
+                    break;
+            }
+        } while (!quit);
+    }
+  }
+  
+  
