@@ -94,15 +94,25 @@ Electric Daisy Carnival Orlando 2024
 `Expected Outcome:` User is Prompted Out of Stock Festival. User is Prompted Festival Not in Catalogue. List the LinkedList Festivals. 
 ```bash
 <out of stock message here>
+
 <continue loop and ask Customer for Festivals to order message here>
+
 <valid entry and Festival added message here>
+
 <continue loop and ask Customer for Festivals to order message here>
+
 <valid entry and Festival added message here>
+
 <continue loop and ask Customer for Festivals to order message here>
+
 <invalid entry message here>
+
 <continue loop and ask Customer for Festivals to order message here>
+
 <valid entry and Festival added message here>
+
 <Exit loop>
+
 <Go back to menu>
 ```
 
@@ -111,7 +121,9 @@ Electric Daisy Carnival Orlando 2024
 `Input:` Navigate to "View Purchases."
 ```bash
 <int or char key to view purchase>
+
 <int or char key to confirm purchase>
+
 <add to unshippedOrders>
 ```
 `Expected Outcome:` Display the temporary placed order along with any previous orders.
@@ -178,6 +190,7 @@ Music Festivals:
     Wizkid
 
 <Prompt User to confirm purchase message>
+
 <Congratulate User on purchase message>
 ```
 
@@ -231,17 +244,25 @@ Music Festivals:
   `Input:` Search for a product by its primary key and update its details.
   ```bash
   <int or char key to enter update Festival>
+  
   Coachella Music Festival 2024
+  
   <int or char key to change price>
+  
   450.00
+  
   <int or char key to continue making changes>
+  
   <int or char key to add featured artists>
+  
   Peso Pluma, Blur, J Balvin
+  
   <int or char key to confirm changes>
   ```
   `Expected Outcome:` Product details updated in the system. Confirmation of update displayed.
   ```bash
   <enter Festival by its primary key and update details message>
+  
   Music festival to update:
     Name: Coachella Music Festival 2024
     Date: 2024-04-12
@@ -263,13 +284,47 @@ Music Festivals:
       No Doubt
   
   <Display menu of attributes to change of Festival>
-  <
+  
+  <Change price by amount message>
+  
+  <Continue making changes or exit message>
+  
+  <Display menu of attributes to change of Festival>
+  
+  <Add artists seperated by commas message>
+  
+  <Continue making changes or exit message>
+  
+  Music festival updated:
+    Name: Coachella Music Festival 2024
+    Date: 2024-04-12
+    Price: 450.00
+    City: Indio
+    Staate: CA
+    Tickets Remaining: 316
+    Genres:
+      Electronic
+      Hip Hop
+      House
+      Indie
+      Pop
+      Rock
+    Featured Artists
+      Lana Del Rey
+      Tyler, The Creator
+      Doja Cat
+      No Doubt
+      Peso Pluma
+      Blur
+      J Balvin
   ```
 
-- **Add New Product:**
+- **Add New Festival:**
   
-  `Input:` Provide details for a new product (I will provide details soon.).
+  `Input:` Provide details for a new product.
   ```bash
+  <int or char key to add new Festival>
+  
   
   ```
   `Expected Outcome:` New product added to the catalogue. Confirmation message displayed.

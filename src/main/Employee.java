@@ -30,28 +30,6 @@ public class Employee extends User {
     public void updateOrderStatus() {
     }
 
-    public Order getShippedOrderByOrderID(String orderID, BST<Customer> customerByName) {
-        Order[] foundOrder = {null};
-        customerByName.traverseAndPerformAction(new BST.TraversalAction<Customer>() {
-            @Override
-            public void performAction(Customer customer) {
-                searchOrders(customer.getShippedOrders(), orderID, foundOrder);
-            }
-        });
-        return foundOrder[0];
-    }
-
-    public Order getUnshippedOrderByOrderID(String orderID, BST<Customer> customerByName) {
-        Order[] foundOrder = {null};
-        customerByName.traverseAndPerformAction(new BST.TraversalAction<Customer>() {
-            @Override
-            public void performAction(Customer customer) {
-                searchOrders(customer.getUnshippedOrders(), orderID, foundOrder);
-            }
-        });
-        return foundOrder[0];
-    }
-
     private void searchOrders(LinkedList<Order> orders, String orderID, Order[] foundOrder) {
         if (orders == null || orders.isEmpty()) return;
 
