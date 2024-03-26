@@ -172,6 +172,8 @@ public class DataLoader {
                         isShipped
                 );
 
+                order.setOrderID("" + Order.generateOrderID());
+
                 if (isShipped) {
                     customer.addShippedOrder(order);
                     shippedOrders.insert(order);

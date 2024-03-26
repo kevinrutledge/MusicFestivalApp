@@ -111,6 +111,10 @@ public class Order {
         return isShipped;
     }
 
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

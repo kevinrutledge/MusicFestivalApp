@@ -253,7 +253,9 @@ public class MusicFestival {
                             break;
                     }
                     // place a new order
+                    order.setOrderID("" + Order.generateOrderID());
                     user.addUnshippedOrder(order);
+                    unshippedOrders.insert(order);
                     // display details of order
                     System.out.println("Order placed for:");
                     System.out.println(orders.toString());
