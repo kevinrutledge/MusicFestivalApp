@@ -18,7 +18,7 @@ public class MusicFestival {
     // Can also be used when shipping an order since the Customer's orders need to be updated here
     // Order contains the customer name, so we can find the Customer here based on that name
     // and call the shipOrder method to move it from one list to the other.
-    private static BST<Customer> customerByName = new BST<>(new Customer[]{}, new UserNameComparator<>());
+    private static LinkedList<Customer> customers = new LinkedList<>();
     private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
                                                                                                         // shipped
                                                                                                         // orders.
@@ -33,9 +33,9 @@ public class MusicFestival {
 
         // Load data from files
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
-        DataLoader.populateUsers(users, employees, customerByName);
+        DataLoader.populateUsers(users, employees, customers);
         DataLoader.authenticateUsers(scanner);
-        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customerByName);
+        DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customers);
 
         System.out.println("Welcome to MusicFestivalApp\n");
         // login(scanner) returns a user object which can be an employee or customer
@@ -55,7 +55,7 @@ public class MusicFestival {
         boolean loggedin = false;
         int loginChoice;
         String firstName, lastName, email, password, address, city, state, zip;
-        User user;
+        User user = null;
         // loops until user is logged in
         do {
             System.out.print(
@@ -69,15 +69,16 @@ public class MusicFestival {
                     email = scanner.nextLine();
                     System.out.print("Enter your password: ");
                     password = scanner.nextLine();
-                    user = new Customer(email, password);
-                    user = users.get(user);
-                    if (user != null) {
+                    User placeholderUser = new Customer(email);
+                    user = users.get(placeholderUser);
+                    if (user != null && user.passwordMatch(password)) {
                         System.out.printf("Welcome %s %s, ", user.getFirstName(), user.getLastName());
                         loggedin = true;
                         return user;
+                    } else {
+                        System.out.println("Invalid email password combination");
+                        user = null;
                     }
-                    System.out.println("Invalid email password combination");
-
                     break;
                 case 2: // create new account
                     System.out.println("Creating new account");
@@ -100,7 +101,7 @@ public class MusicFestival {
                     user = new Customer(firstName, lastName, email, password, false, address, city, state, zip);
                     // adds new account to hashtable
                     users.add(user);
-                    customerByName.insert((Customer) user, new UserNameComparator<>());
+                    customers.addLast((Customer) user);
                     // writes new account to users.txt
                     try (FileWriter writer = new FileWriter("users.txt", true)) {
                         writer.write("\n");

@@ -43,7 +43,7 @@ public class DataLoader {
         }
     }
 
-    static void populateUsers(HashTable<User> users, HashTable<User> employees, BST<Customer> customersByName) {
+    static void populateUsers(HashTable<User> users, HashTable<User> employees, LinkedList<Customer> customers) {
         UserNameComparator userNameComparator = new UserNameComparator();
         // Load user data from file
         try {
@@ -72,7 +72,7 @@ public class DataLoader {
                             zip
                     );
                     users.add(customer);
-                    customersByName.insert(customer, userNameComparator);
+                    customers.addLast(customer);
                 } else {
                     boolean isManager = Boolean.parseBoolean(scanner.nextLine());
                     if (isManager) {
@@ -118,7 +118,7 @@ public class DataLoader {
             Heap<Order> shippedOrders,
             Heap<Order> unShippedOrders,
             BST<Festival> festivals,
-            BST<Customer> customersByName
+            LinkedList<Customer> customers
     ) {
         UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
         try {
@@ -158,28 +158,26 @@ public class DataLoader {
                         "",
                         ""
                 );
-                Customer customer = customersByName.search(customerPlaceholder, userNameComparator);
-                if (customer == null) {
-                    throw new IllegalArgumentException("populateOrders(): customer with name " + customerPlaceholder.getFullName() + " does not exist.");
-                }
-
-                Order order = new Order(
-                        names[0],
-                        names[1],
-                        dateOfPurchase,
-                        festivalList,
-                        shippingSpeed,
-                        isShipped
-                );
-
-                order.setOrderID("" + Order.generateOrderID());
-
-                if (isShipped) {
-                    customer.addShippedOrder(order);
-                    shippedOrders.insert(order);
-                } else {
-                    customer.addUnshippedOrder(order);
-                    unShippedOrders.insert(order);
+                int index = customers.findIndex(customerPlaceholder);
+                if (index >= 0) {
+                    customers.advanceIteratorToIndex(index);
+                    Customer customer = customers.getIterator();
+                    Order order = new Order(
+                            names[0],
+                            names[1],
+                            dateOfPurchase,
+                            festivalList,
+                            shippingSpeed,
+                            isShipped
+                    );
+                    order.setOrderID("" + Order.generateOrderID());
+                    if (isShipped) {
+                        customer.addShippedOrder(order);
+                        shippedOrders.insert(order);
+                    } else {
+                        customer.addUnshippedOrder(order);
+                        unShippedOrders.insert(order);
+                    }
                 }
 
                 if (scanner.hasNextLine()) {
