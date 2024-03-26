@@ -189,15 +189,14 @@ public class Order {
 class PriorityComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {
-        LocalDate date1 = LocalDate.parse(order1.getDatePurchased());
-        LocalDate date2 = LocalDate.parse(order2.getDatePurchased());
+        LocalDate date1 = order1.getDatePurchased() != null ? LocalDate.parse(order1.getDatePurchased()) : LocalDate.MAX;
+        LocalDate date2 = order2.getDatePurchased() != null ? LocalDate.parse(order2.getDatePurchased()) : LocalDate.MAX;
         int dateComparison = date1.compareTo(date2);
-
         if (dateComparison != 0) {
             return dateComparison;
         } else {
-            return Integer.compare(order1.getShippingSpeed().getShippingCode(),
-                                   order2.getShippingSpeed().getShippingCode());
+            return Integer.compare(order2.getShippingSpeed().getShippingCode(), 
+                                   order1.getShippingSpeed().getShippingCode());
         }
     }
 }
