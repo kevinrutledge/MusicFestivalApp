@@ -491,4 +491,39 @@ public class BST<T> {
             return currLevel.data;
         }
     }
+
+    /**
+     * Represents a functional interface for performing actions during tree traversal.
+     * This interface is used to execute custom actions on each node's data during the traversal
+     * of a binary search tree.
+     *
+     * @param <T> the type of data stored in the BST.
+     */
+    public interface TraversalAction<T> {
+        void performAction(T data);
+    }
+
+    /**
+     * Traverses the binary search tree in an in-order manner and performs a specified action on each node's data.
+     * This method allows for flexible operations on the tree's data without modifying the tree structure.
+     *
+     * @param action action to be performed on each node's data defined by implementing the TraversalAction interface.
+     */
+    public void traverseAndPerformAction(TraversalAction<T> action) {
+        traverseAndPerformAction(root, action);
+    }
+
+    /**
+     * Helper method to recursively traverse the binary search tree in-order and perform a specified action.
+     * This method is called by the public traverseAndPerformAction method and should not be called directly.
+     *
+     * @param node   the current node being visited during the traversal.
+     * @param action the action to perform on each node's data.
+     */
+    private void traverseAndPerformAction(Node node, TraversalAction<T> action) {
+        if (node == null) return;
+        traverseAndPerformAction(node.left, action);
+        action.performAction(node.data);
+        traverseAndPerformAction(node.right, action);
+    }
 }

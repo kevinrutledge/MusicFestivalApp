@@ -43,28 +43,12 @@ public class Customer extends User {
         return zip;
     }
 
-    public Order getShippedOrderByOrderID(String orderID) {
-        Order placeholderOrder = new Order(orderID);
-        int index = shippedOrders.findIndex(placeholderOrder);
-        shippedOrders.advanceIteratorToIndex(index);
-        Order result = shippedOrders.getIterator();
-        return result;
+    public LinkedList<Order> getShippedOrders() {
+        return this.unshippedOrders;
     }
 
-    public Order getUnshippedOrderByOrderID(String orderID) {
-        Order placeholderOrder = new Order(orderID);
-        int index = unshippedOrders.findIndex(placeholderOrder);
-        unshippedOrders.advanceIteratorToIndex(index);
-        Order result = unshippedOrders.getIterator();
-        return result;
-    }
-
-    public LinkedList<Order> getShippedOrderByCustomerName() {
-        return shippedOrders;
-    }
-
-    public LinkedList<Order> getUnshippedOrderByCustomerName() {
-        return unshippedOrders;
+    public LinkedList<Order> getUnshippedOrders() {
+        return this.unshippedOrders;
     }
 
     // Setters

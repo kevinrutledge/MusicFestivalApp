@@ -18,7 +18,6 @@ public class Employee extends User {
         this.isManager = isManager;
     }
 
-    // Getters
     public boolean getIsManager() {
         return isManager;
     }
@@ -28,8 +27,57 @@ public class Employee extends User {
         this.isManager = isManager;
     }
 
-    // Update order status
     public void updateOrderStatus() {
+    }
+
+    public Order getShippedOrderByOrderID(String orderID, BST<Customer> customerByName) {
+        Order[] foundOrder = {null};
+        customerByName.traverseAndPerformAction(new BST.TraversalAction<Customer>() {
+            @Override
+            public void performAction(Customer customer) {
+                searchOrders(customer.getShippedOrders(), orderID, foundOrder);
+            }
+        });
+        return foundOrder[0];
+    }
+
+    public Order getUnshippedOrderByOrderID(String orderID, BST<Customer> customerByName) {
+        Order[] foundOrder = {null};
+        customerByName.traverseAndPerformAction(new BST.TraversalAction<Customer>() {
+            @Override
+            public void performAction(Customer customer) {
+                searchOrders(customer.getUnshippedOrders(), orderID, foundOrder);
+            }
+        });
+        return foundOrder[0];
+    }
+
+    private void searchOrders(LinkedList<Order> orders, String orderID, Order[] foundOrder) {
+        if (orders == null || orders.isEmpty()) return;
+
+        Order placeholderOrder = new Order(orderID);
+        int index = orders.findIndex(placeholderOrder);
+
+        if (index != -1) {
+            orders.advanceIteratorToIndex(index);
+            foundOrder[0] = orders.getIterator();
+        }
+    }
+
+    public LinkedList<Order> getShippedOrderByName(String firstName, String lastName, BST<Customer> customerByName) {
+        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
+        Customer customerPlaceholder = new Customer(firstName, lastName, "", "", false,
+                "", "", "", "");
+        Customer result = customerByName.search(customerPlaceholder, userNameComparator);
+        return result.getShippedOrders();
+    }
+
+    public LinkedList<Order> getUnshippedOrderByName(String firstName, String lastName, BST<Customer> customerByName) {
+        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
+        Customer customerPlaceholder = new Customer(firstName, lastName, "", "", false,
+                "", "", "", "");
+        Customer result = customerByName.search(customerPlaceholder, userNameComparator);
+        return result.getUnshippedOrders();
     }
 
     @Override

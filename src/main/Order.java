@@ -157,6 +157,18 @@ public class Order {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Order)) return false;
+        Order that = (Order) other;
+        return this.orderID.equals(that.orderID);
+    }
+    @Override
+    public int hashCode() {
+        return (orderID == null) ? 0 : orderID.hashCode();
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order ID: ").append(orderID).append("\n");
