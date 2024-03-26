@@ -387,14 +387,18 @@ public class MusicFestival {
                     }
                     break;
                 case 4: // View All Orders Sorted by Priority
-                    List<Order> allOrders = new ArrayList<>();
+                    ArrayList<Order> allOrders = new ArrayList<>();
+                    // Add shipped orders to the list
                     for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
                         allOrders.add(shippedOrders.getElement(i));
                     }
+                    // Add unshipped orders to the list
                     for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
                         allOrders.add(unshippedOrders.getElement(i));
                     }
+                    // Sort the list using PriorityComparator
                     Collections.sort(allOrders, new PriorityComparator());
+                    // Display the sorted orders
                     System.out.println("All Orders Sorted by Priority:");
                     for (Order order : allOrders) {
                         System.out.println(order);
