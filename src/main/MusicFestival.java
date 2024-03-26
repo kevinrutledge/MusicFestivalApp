@@ -215,7 +215,7 @@ public class MusicFestival {
                             System.out.println(toOrder.toString());
                             orders.addLast(toOrder); // adds festival to orders
                         }
-                    } while (line != "EXIT");
+                    } while (!line.equals("EXIT"));
                     // select shipping and create new order object
                     System.out.println("1. Standard shipping ");
                     System.out.println("2. Rush shipping  ");
