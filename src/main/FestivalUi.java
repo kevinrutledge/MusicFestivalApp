@@ -19,8 +19,6 @@ public class FestivalUi {
             System.out.println("1. Search by name");
             System.out.println("2. Search by start date and city");
             System.out.println("3. To the previous menu\n");
-
-            System.out.print("Please enter your choice: ");
             choice = getValidInput(1, 3, scanner);
 
             System.out.println();
@@ -73,7 +71,6 @@ public class FestivalUi {
             System.out.println("2. List festivals by start date and city");
             System.out.println("3. To the previous menu\n");
 
-            System.out.print("Please enter your choice: ");
             choice = getValidInput(1, 3, scanner);
 
             System.out.println();
