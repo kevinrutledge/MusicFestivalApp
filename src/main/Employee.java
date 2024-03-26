@@ -30,32 +30,36 @@ public class Employee extends User {
     public void updateOrderStatus() {
     }
 
-    private void searchOrders(LinkedList<Order> orders, String orderID, Order[] foundOrder) {
-        if (orders == null || orders.isEmpty()) return;
+    public Order getByOrderID(String orderID, LinkedList<Customer> customers, boolean searchShipped) {
+        customers.positionIterator();
+        while (!customers.offEnd()) {
+            Customer currentCustomer = customers.getIterator();
+            LinkedList<Order> orders = searchShipped ? currentCustomer.getShippedOrders() : currentCustomer.getUnshippedOrders();
 
-        Order placeholderOrder = new Order(orderID);
-        int index = orders.findIndex(placeholderOrder);
-
-        if (index != -1) {
-            orders.advanceIteratorToIndex(index);
-            foundOrder[0] = orders.getIterator();
+            orders.positionIterator();
+            while (!orders.offEnd()) {
+                Order currentOrder = orders.getIterator();
+                if (currentOrder.getOrderID().equals(orderID)) {
+                    return currentOrder;
+                }
+                orders.advanceIterator();
+            }
+            customers.advanceIterator();
         }
+        return null;
     }
 
-    public LinkedList<Order> getShippedOrderByName(String firstName, String lastName, BST<Customer> customerByName) {
-        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
-        Customer customerPlaceholder = new Customer(firstName, lastName, "", "", false,
-                "", "", "", "");
-        Customer result = customerByName.search(customerPlaceholder, userNameComparator);
-        return result.getShippedOrders();
-    }
+    public LinkedList<Order> getOrdersByName(String firstName, String lastName, LinkedList<Customer> customers, boolean searchShipped) {
+        customers.positionIterator();
+        while (!customers.offEnd()) {
+            Customer currentCustomer = customers.getIterator();
+            if (currentCustomer.getFirstName().equals(firstName) && currentCustomer.getLastName().equals(lastName)) {
+                return searchShipped ? currentCustomer.getShippedOrders() : currentCustomer.getUnshippedOrders();
+            }
+            customers.advanceIterator();
+        }
 
-    public LinkedList<Order> getUnshippedOrderByName(String firstName, String lastName, BST<Customer> customerByName) {
-        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
-        Customer customerPlaceholder = new Customer(firstName, lastName, "", "", false,
-                "", "", "", "");
-        Customer result = customerByName.search(customerPlaceholder, userNameComparator);
-        return result.getUnshippedOrders();
+        return new LinkedList<Order>();
     }
 
     @Override
