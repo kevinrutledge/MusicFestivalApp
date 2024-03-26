@@ -190,7 +190,7 @@ public class MusicFestival {
                     FestivalUi.displayFestival(scanner, festivalsByName, festivalsByStartDateCity);
                     break;
                 case 3: // place order for non-guests only
-                    if (((User) user).getEmail() == "guest@email.com") {
+                    if (((User) user).getEmail().equals("guest@email.com")) {
                         System.out.println("Ordering is not available to guests");
                         break;
                     }
@@ -215,7 +215,7 @@ public class MusicFestival {
                             System.out.println(toOrder.toString());
                             orders.addLast(toOrder); // adds festival to orders
                         }
-                    } while (line != "EXIT");
+                    } while (!line.equals("EXIT"));
                     // select shipping and create new order object
                     System.out.println("1. Standard shipping ");
                     System.out.println("2. Rush shipping  ");
@@ -276,7 +276,7 @@ public class MusicFestival {
                     }
                     break;
                 case 4: // view purchase for non-guests only
-                    if (((User) user).getEmail() == "guest@email.com") {
+                    if (((User) user).getEmail().equals("guest@email.com")) {
                         System.out.println("Ordering is not available to guests");
                         break;
                     }
