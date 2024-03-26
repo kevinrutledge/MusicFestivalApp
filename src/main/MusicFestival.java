@@ -296,7 +296,6 @@ public class MusicFestival {
             }
         } while (!quit);
     }
-
     /**
      * Author: Nelson Ngo
      */
