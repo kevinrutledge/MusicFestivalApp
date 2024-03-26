@@ -46,6 +46,8 @@ public class Festival {
         this.city = festival.city;
         this.state = festival.state;
         this.startDateCity = festival.startDateCity;
+        this.genre = festival.genre;
+        this.featuredArtistLineup = festival.featuredArtistLineup;
     }
 
     /*
@@ -60,6 +62,8 @@ public class Festival {
         this.state = festival.state;
         this.ticketsRemaining = festival.ticketsRemaining;
         this.startDateCity = festival.startDateCity;
+        this.genre = festival.genre;
+        this.featuredArtistLineup = festival.featuredArtistLineup;        
     }    
 
     public Festival(String name, String startDate, double price, String city, String state,
