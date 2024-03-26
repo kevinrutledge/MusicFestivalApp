@@ -296,6 +296,9 @@ public class MusicFestival {
             }
         } while (!quit);
     }
+    /**
+     * Author: Nelson Ngo
+     */
     public static void employeeMenu(Scanner scanner, Employee user) {
         boolean quit = false;
         int menuChoice;
@@ -342,16 +345,16 @@ public class MusicFestival {
                     // Search shipped orders
                     List<Order> matchingOrders = new ArrayList<>();
                     for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
-                       Order order = shippedOrders.getElement(i);
-                       if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
-                           matchingOrders.add(order);
-                       }
+                        Order order = shippedOrders.getElement(i);
+                        if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
+                            matchingOrders.add(order);
+                        }
                     }
                     for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
-                       Order order = unshippedOrders.getElement(i);
-                       if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
-                           matchingOrders.add(order);
-                       }
+                        Order order = unshippedOrders.getElement(i);
+                        if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
+                            matchingOrders.add(order);
+                        }
                     }
                     if (matchingOrders.isEmpty()) {
                         System.out.println("No orders found for the customer.");
@@ -364,42 +367,42 @@ public class MusicFestival {
                     break;
                 case 3: // View Order with Highest Priority
                     Order highestPriorityOrder = null;
-                      for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
-                          Order order = shippedOrders.getElement(i);
-                          if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
-                              highestPriorityOrder = order;
-                          }
-                      }
-                      for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
-                          Order order = unshippedOrders.getElement(i);
-                          if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
-                              highestPriorityOrder = order;
-                          }
-                      }
-                      if (highestPriorityOrder != null) {
-                          System.out.println("Order with highest priority: " + highestPriorityOrder);
-                      } else {
-                          System.out.println("No orders found.");
-                      }
-                      break;
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        Order order = shippedOrders.getElement(i);
+                        if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                            highestPriorityOrder = order;
+                        }
+                    }
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                        Order order = unshippedOrders.getElement(i);
+                        if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                            highestPriorityOrder = order;
+                        }
+                    }
+                    if (highestPriorityOrder != null) {
+                        System.out.println("Order with highest priority: " + highestPriorityOrder);
+                    } else {
+                        System.out.println("No orders found.");
+                    }
+                    break;
                 case 4: // View All Orders Sorted by Priority
-                      ArrayList<Order> allOrders = new ArrayList<>();
-                      // Add shipped orders to the list
-                      for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
-                          allOrders.add(shippedOrders.getElement(i));
-                      }
-                      // Add unshipped orders to the list
-                      for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
-                          allOrders.add(unshippedOrders.getElement(i));
-                      }
-                      // Sort the list using PriorityComparator
-                      Collections.sort(allOrders, new PriorityComparator());
-                      // Display the sorted orders
-                      System.out.println("All Orders Sorted by Priority:");
-                      for (Order order : allOrders) {
-                          System.out.println(order);
-                      }
-                      break;
+                    ArrayList<Order> allOrders = new ArrayList<>();
+                    // Add shipped orders to the list
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        allOrders.add(shippedOrders.getElement(i));
+                    }
+                    // Add unshipped orders to the list
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                        allOrders.add(unshippedOrders.getElement(i));
+                    }
+                    // Sort the list using PriorityComparator
+                    Collections.sort(allOrders, new PriorityComparator());
+                    // Display the sorted orders
+                    System.out.println("All Orders Sorted by Priority:");
+                    for (Order order : allOrders) {
+                        System.out.println(order);
+                    }
+                    break;
                 case 5: // Ship an Order
                     System.out.println("Enter the order ID to ship: ");
                     String orderID1 = scanner.nextLine();
@@ -410,7 +413,7 @@ public class MusicFestival {
                         if (order.getOrderID().equalsIgnoreCase(orderID1)) {
                             order.setIsShipped(true);
                             orderShipped = true;
-                            System.out.println("Order marked as shipped.");
+                            System.out.println("Order already shipped.");
                         }
                     }
                     // Check and update unshipped orders
@@ -426,7 +429,6 @@ public class MusicFestival {
                     if (!orderShipped) {
                         System.out.println("Order not found.");
                     }
-                   
                     break;
                 case 6: // Quit and Write to a File
                     // Code to write to file goes here
@@ -439,4 +441,4 @@ public class MusicFestival {
             }
         } while (!quit);
     }
-   }
+}

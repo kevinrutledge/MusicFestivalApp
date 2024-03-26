@@ -195,7 +195,7 @@ class PriorityComparator implements Comparator<Order> {
         if (dateComparison != 0) {
             return dateComparison;
         } else {
-            return Integer.compare(order2.getShippingSpeed().getShippingCode(),
+            return Integer.compare(order2.getShippingSpeed().getShippingCode(), 
                                    order1.getShippingSpeed().getShippingCode());
         }
     }
