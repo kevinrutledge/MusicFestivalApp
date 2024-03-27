@@ -15,8 +15,10 @@ public class MusicFestival {
     // Can also be used by Employees to search for orders by name.
     // 1. Find customer by name
     // 2. Get their shipped / unshipped orders.
-    // Can also be used when shipping an order since the Customer's orders need to be updated here
-    // Order contains the customer name, so we can find the Customer here based on that name
+    // Can also be used when shipping an order since the Customer's orders need to
+    // be updated here
+    // Order contains the customer name, so we can find the Customer here based on
+    // that name
     // and call the shipOrder method to move it from one list to the other.
     private static LinkedList<Customer> customers = new LinkedList<>();
     private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
@@ -43,10 +45,8 @@ public class MusicFestival {
         // determines if user is a customer or an employee and gives menu options
         if (!user.getIsEmployee()) {
             customerMenu(scanner, (Customer) user); // gives customer menu
-        } else if (!((Employee) user).getIsManager()) {
-            // gives employee menu
         } else {
-            // gives manager menu
+            employeeMenu(scanner, (Employee) user);
         }
         System.out.println("Thank you for using MusicFestivalApp\n");
     }
@@ -120,27 +120,27 @@ public class MusicFestival {
                     loggedin = true;
                     return user;
                 case 3: // log in as guest
-                System.out.println("Logging in as guest");
-                user = new Customer("guest@email.com");
-                System.out.println("Welcome Guest");
-                return user;
+                    System.out.println("Logging in as guest");
+                    user = new Customer("guest@email.com");
+                    System.out.println("Welcome Guest");
+                    return user;
 
                 case 4: // log in as employee
-                System.out.println("Logging in as employee");
-                System.out.print("Enter your email: ");
-                email = scanner.nextLine();
-                System.out.print("Enter your password: ");
-                password = scanner.nextLine();
-                user = new Employee(email, password);
-                user = employees.get(user);
-                if (user != null) {
-                    System.out.printf("Welcome employee %s %s, ", user.getFirstName(), user.getLastName());
-                    loggedin = true;
-                    return user;
-                }
-                System.out.println("Invalid email password combination");
+                    System.out.println("Logging in as employee");
+                    System.out.print("Enter your email: ");
+                    email = scanner.nextLine();
+                    System.out.print("Enter your password: ");
+                    password = scanner.nextLine();
+                    user = new Employee(email, password);
+                    user = employees.get(user);
+                    if (user != null) {
+                        System.out.printf("Welcome employee %s %s, ", user.getFirstName(), user.getLastName());
+                        loggedin = true;
+                        return user;
+                    }
+                    System.out.println("Invalid email password combination");
 
-                break;
+                    break;
                 case 5: // log in as manager
                     System.out.println("Logging in as manager");
                     System.out.print("Enter your email: ");
@@ -155,7 +155,7 @@ public class MusicFestival {
                         return user;
                     }
                     System.out.println("Invalid email password combination");
-    
+
                     break;
 
                 default:
@@ -296,6 +296,7 @@ public class MusicFestival {
             }
         } while (!quit);
     }
+
     /**
      * Author: Nelson Ngo
      */
@@ -303,10 +304,18 @@ public class MusicFestival {
         boolean quit = false;
         int menuChoice;
         do {
-            System.out.print(
-                    "Enter 1 to Search for an Order by ID, 2 to Search by Customer Name, " +
-                            "3 to View Order with Highest Priority, 4 to View All Orders Sorted by Priority, " +
-                            "5 to Ship an Order, 6 to Quit and Write to a File: ");
+            System.out.println("Please enter your choice: ");
+            System.out.println("1. Search for an Order by ID");
+            System.out.println("2. Search by Customer Name");
+            System.out.println("3. View Order with Highest Priority");
+            System.out.println("4. View All Orders Sorted by Priority");
+            System.out.println("5. Ship an Order");
+            System.out.println("6. Add a Festival (Manager Only)");
+            System.out.println("7. Update a Festival (Manager Only)");
+            System.out.println("8. Remove a Festival (Manager Only)");
+            System.out.println("9. Quit and Write to a File");
+            System.out.print("Your Choice: ");
+
             menuChoice = scanner.nextInt();
             scanner.nextLine();
             switch (menuChoice) {
@@ -369,13 +378,15 @@ public class MusicFestival {
                     Order highestPriorityOrder = null;
                     for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
                         Order order = shippedOrders.getElement(i);
-                        if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                        if (highestPriorityOrder == null
+                                || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
                             highestPriorityOrder = order;
                         }
                     }
                     for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
                         Order order = unshippedOrders.getElement(i);
-                        if (highestPriorityOrder == null || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
+                        if (highestPriorityOrder == null
+                                || new PriorityComparator().compare(order, highestPriorityOrder) < 0) {
                             highestPriorityOrder = order;
                         }
                     }
@@ -430,7 +441,17 @@ public class MusicFestival {
                         System.out.println("Order not found.");
                     }
                     break;
-                case 6: // Quit and Write to a File
+                case 6:
+                    FestivalUi.addFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    break;
+                case 7:
+                    FestivalUi.updateFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    break;
+                case 8:
+                    FestivalUi.removeFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    break;
+                case 9:
+                    // Quit and Write to a File
                     // Code to write to file goes here
                     System.out.println("Writing to file and quitting...");
                     quit = true;
