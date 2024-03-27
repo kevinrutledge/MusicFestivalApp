@@ -85,6 +85,7 @@ public class Order {
                  ShippingSpeed shippingSpeed, boolean isShipped) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.datePurchased = datePurchased;
         this.orderContents = orderContents;
         this.totalPrice = calculateTotalPrice();
