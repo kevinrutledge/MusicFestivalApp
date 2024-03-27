@@ -3,7 +3,23 @@ package main;
 import java.util.Comparator;
 import java.time.LocalDate;
 
+/**
+ * Represents an order within the Music Festival App.
+ * Orders contain information about the customer, the festivals included in the order,
+ * total price, shipping speed, and shipping status.
+ *
+ * @author: Kevin Rutledge
+ * @author: Heejung Lim
+ * @author: Congcong Ai
+ * @author: Kyle Nguyen
+ * @author: Justin Nguyen
+ * @author: Nelson Ngo
+ * @author: Adnan Abou Kewik
+ */
 public class Order {
+    /**
+     * Enum representing the shipping speeds available for an order.
+     */
     public enum ShippingSpeed {
         STANDARD(1),
         RUSH(2),
@@ -33,6 +49,7 @@ public class Order {
     private String orderID;
     private String firstName;
     private String lastName;
+    private String email;
     private String datePurchased;
     private LinkedList<Festival> orderContents;
     private double totalPrice;
@@ -45,6 +62,7 @@ public class Order {
         this.orderID = orderID;
         this.firstName = "first name unknown";
         this.lastName = "last name unknown";
+        this.email = "email unknown";
         this.datePurchased = "date unknown";
         this.orderContents = null;
         this.totalPrice = 0.0;
@@ -55,6 +73,7 @@ public class Order {
     public Order(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = "email unknown";
         this.datePurchased = "date unknown";
         this.orderContents = null;
         this.totalPrice = 0.0;
@@ -62,7 +81,7 @@ public class Order {
         this.isShipped = false;
     }
 
-    public Order(String firstName, String lastName, String datePurchased, LinkedList<Festival> orderContents,
+    public Order(String firstName, String lastName, String email, String datePurchased, LinkedList<Festival> orderContents,
                  ShippingSpeed shippingSpeed, boolean isShipped) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -139,6 +158,12 @@ public class Order {
         orderContents.addLast(festival);
     }
 
+    /**
+     * Calculates the total price of the festivals in the order.
+     * Iterates through the festivals, summing their prices.
+     *
+     * @return The total price of the order.
+     */
     public double calculateTotalPrice() {
         if (this.orderContents == null || this.orderContents.isEmpty()) {
             return 0.0;
@@ -176,6 +201,7 @@ public class Order {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order ID: ").append(orderID).append("\n");
+        sb.append("Email: ").append(email).append("\n");
         sb.append("Name: ").append(firstName).append(" ").append(lastName).append("\n");
         sb.append("Date Purchased: ").append(datePurchased).append("\n");
         sb.append("Music Festivals: ").append("\n").append(orderContents.toString()).append("\n");
@@ -186,6 +212,11 @@ public class Order {
     }
 }
 
+/**
+ * Comparator for sorting orders based on their purchase date and shipping speed.
+ * Orders with earlier purchase dates are given priority, and among those, orders
+ * with faster shipping speeds are prioritized.
+ */
 class PriorityComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {
@@ -200,8 +231,11 @@ class PriorityComparator implements Comparator<Order> {
         }
     }
  }
- 
 
+/**
+ * Comparator for sorting orders by the customer's name.
+ * Orders are compared based on the concatenation of the customer's first and last name.
+ */
 class OrderNameComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {
@@ -211,6 +245,10 @@ class OrderNameComparator implements Comparator<Order> {
     }
 }
 
+/**
+ * Comparator for sorting orders by their order ID.
+ * Facilitates easy identification and retrieval of specific orders.
+ */
 class OrderIdComparator implements Comparator<Order> {
     @Override
     public int compare(Order order1, Order order2) {

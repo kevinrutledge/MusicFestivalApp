@@ -15,3 +15,14 @@
 
 # Build artifacts
 out/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+bin/
+bins/
+
+# Additional common binary directories
+**/bin/
+**/bins/

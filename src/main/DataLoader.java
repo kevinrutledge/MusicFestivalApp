@@ -3,7 +3,26 @@ package main;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Utility class responsible for populating the application's data structures
+ * with festival, user, and order data from external files.
+ *
+ * @author: Kevin Rutledge
+ * @author: Heejung Lim
+ * @author: Congcong Ai
+ * @author: Kyle Nguyen
+ * @author: Justin Nguyen
+ * @author: Nelson Ngo
+ * @author: Adnan Abou Kewik
+ */
 public class DataLoader {
+    /**
+     * Reads festival data from a file and populates two binary search trees (BSTs),
+     * one sorted by festival name and the other by start date and city.
+     *
+     * @param festivalsByName A BST to populate with festivals sorted by name.
+     * @param festivalsByStartDateCity A BST to populate with festivals sorted by start date and city.
+     */
     static void populateFestivals(BST<Festival> festivalsByName, BST<Festival> festivalsByStartDateCity) {
         try {
             Scanner scanner = new Scanner(new File("festivals.txt"));
@@ -43,8 +62,15 @@ public class DataLoader {
         }
     }
 
+    /**
+     * Reads user data from a file and populates a hash table for all users,
+     * a hash table specifically for employees, and a linked list for customers.
+     *
+     * @param users A hash table to populate with all users.
+     * @param employees A hash table to populate specifically with employees.
+     * @param customers A linked list to populate with customer data.
+     */
     static void populateUsers(HashTable<User> users, HashTable<User> employees, LinkedList<Customer> customers) {
-        UserNameComparator userNameComparator = new UserNameComparator();
         // Load user data from file
         try {
             Scanner scanner = new Scanner(new File("users.txt"));
@@ -60,41 +86,18 @@ public class DataLoader {
                     String city = scanner.nextLine();
                     String state = scanner.nextLine();
                     String zip = scanner.nextLine();
-                    Customer customer = new Customer(
-                            name[0],
-                            name[1],
-                            email,
-                            password,
-                            isEmployee,
-                            address,
-                            city,
-                            state,
-                            zip
-                    );
+                    Customer customer = new Customer(name[0], name[1], email, password,
+                                        isEmployee, address, city, state, zip);
                     users.add(customer);
                     customers.addLast(customer);
                 } else {
                     boolean isManager = Boolean.parseBoolean(scanner.nextLine());
                     if (isManager) {
-                        Manager manager = new Manager(
-                                name[0],
-                                name[1],
-                                email,
-                                password,
-                                isEmployee,
-                                isManager
-                        );
+                        Manager manager = new Manager(name[0], name[1], email, password, isEmployee, isManager);
                         users.add(manager);
                         employees.add(manager);
                     } else {
-                        Employee employee = new Employee(
-                                name[0],
-                                name[1],
-                                email,
-                                password,
-                                isEmployee,
-                                isManager
-                        );
+                        Employee employee = new Employee(name[0], name[1], email, password, isEmployee, isManager);
                         users.add(employee);
                         employees.add(employee);
                     }
@@ -114,17 +117,22 @@ public class DataLoader {
         // Authenticate users based on loaded data
     }
 
-    static void populateOrders(
-            Heap<Order> shippedOrders,
-            Heap<Order> unShippedOrders,
-            BST<Festival> festivals,
-            LinkedList<Customer> customers
-    ) {
-        UserNameComparator<Customer> userNameComparator = new UserNameComparator<>();
+    /**
+     * Reads order data from a file and populates two heaps, one for shipped orders
+     * and another for unshipped orders, as well as updating customer records with their orders.
+     *
+     * @param shippedOrders A heap to populate with shipped orders.
+     * @param unShippedOrders A heap to populate with unshipped orders.
+     * @param festivals A BST containing all festivals, used to associate orders with specific festivals.
+     * @param customers A linked list of customers, used to associate orders with specific customers.
+     */
+    static void populateOrders(Heap<Order> shippedOrders, Heap<Order> unShippedOrders,
+                BST<Festival> festivals, LinkedList<Customer> customers) {
         try {
             Scanner scanner = new Scanner(new File("orders.txt"));
             while (scanner.hasNextLine()) {
                 String[] names = scanner.nextLine().split(" ");
+                String email = scanner.nextLine();
                 String dateOfPurchase = scanner.nextLine();
                 int numFestivals = Integer.parseInt(scanner.nextLine());
                 LinkedList<Festival> festivalList = new LinkedList<>();
@@ -147,28 +155,13 @@ public class DataLoader {
                  * Set up customer in order to populate their
                  * unshippedOrders or shippedOrders variables
                  */
-                Customer customerPlaceholder = new Customer(
-                        names[0],
-                        names[1],
-                        "",
-                        "",
-                        false,
-                        "",
-                        "",
-                        "",
-                        ""
-                );
+                Customer customerPlaceholder = new Customer(email);
                 int index = customers.findIndex(customerPlaceholder);
                 if (index >= 0) {
                     customers.advanceIteratorToIndex(index);
                     Customer customer = customers.getIterator();
-                    Order order = new Order(
-                            names[0],
-                            names[1],
-                            dateOfPurchase,
-                            festivalList,
-                            shippingSpeed,
-                            isShipped
+                    Order order = new Order(names[0], names[1], email, dateOfPurchase, festivalList,
+                                  shippingSpeed, isShipped
                     );
                     order.setOrderID("" + Order.generateOrderID());
                     if (isShipped) {

@@ -1,32 +1,26 @@
 package main;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
-import main.Order.ShippingSpeed;
-
+/**
+ * Main class for the Music Festival App, orchestrating user interactions,
+ * data loading, and application logic.
+ * It handles user authentication, displays menus based on user roles, and
+ * allows for managing festivals, orders, and user information.
+ *
+ * Author: [Your Name or Team Name]
+ */
 public class MusicFestival {
     // Static data structures for the application
-    private static BST<Festival> festivalsByName = new BST<>(); // BST for primary key.
-    private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for secondary key.
-    private static HashTable<User> users = new HashTable<>(100); // HashTable for all users.
-    private static HashTable<User> employees = new HashTable<>(100); // HashTable for employees
-    // Used to add orders to Customers (since orders are stored by first+last name)
-    // Can also be used by Employees to search for orders by name.
-    // 1. Find customer by name
-    // 2. Get their shipped / unshipped orders.
-    // Can also be used when shipping an order since the Customer's orders need to
-    // be updated here
-    // Order contains the customer name, so we can find the Customer here based on
-    // that name
-    // and call the shipOrder method to move it from one list to the other.
-    private static LinkedList<Customer> customers = new LinkedList<>();
-    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
-                                                                                                        // shipped
-                                                                                                        // orders.
-    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator()); // Heap for
-                                                                                                          // unshipped
-                                                                                                          // orders.
+    private static BST<Festival> festivalsByName = new BST<>(); // BST for storing by name
+    private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for storing by start date and city
+    private static HashTable<User> users = new HashTable<>(100); // HashTable for storing all users
+    private static HashTable<User> employees = new HashTable<>(100); // HashTable for storing employees
+    private static LinkedList<Customer> customers = new LinkedList<>(); // LinkedList for storing customer data
+    private static Heap<Order> shippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator());
+    private static Heap<Order> unshippedOrders = new Heap<>(new ArrayList<>(), new PriorityComparator());
     private static final NameComparator NAME_COMPARATOR = new NameComparator();
 
     public static void main(String[] args) throws IOException {
@@ -51,6 +45,12 @@ public class MusicFestival {
         System.out.println("Thank you for using MusicFestivalApp\n");
     }
 
+    /**
+     * Handles user login and new account creation, returning an authenticated or new User object.
+     *
+     * @param scanner Scanner for reading user input from the console.
+     * @return User The authenticated user or a new user object.
+     */
     public static User login(Scanner scanner) {
         boolean loggedin = false;
         int loginChoice;
@@ -170,6 +170,12 @@ public class MusicFestival {
 
     }
 
+    /**
+     * Displays and handles the customer menu options allowing customers to interact with the application.
+     *
+     * @param scanner Scanner for reading user input from the console.
+     * @param user The authenticated customer user.
+     */
     public static void customerMenu(Scanner scanner, Customer user) {
         boolean quit = false;
         int menuChoice, shippingChoice;
@@ -223,33 +229,34 @@ public class MusicFestival {
                     System.out.println("4. Digital shipping ");
                     System.out.print("Enter value for shipping: ");
                     shippingChoice = scanner.nextInt();
+                    System.out.println();
                     scanner.nextLine();
                     switch (shippingChoice) {
                         case 1:
                             System.out.println("Standard shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
-                                    Order.ShippingSpeed.STANDARD, false);
+                            order = new Order(user.getFirstName(), user.getLastName(), user.getEmail(),
+                                    LocalDate.now().toString() , orders, Order.ShippingSpeed.STANDARD, false);
                             break;
                         case 2:
                             System.out.println("Rush shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
-                                    Order.ShippingSpeed.RUSH, false);
+                            order = new Order(user.getFirstName(), user.getLastName(), user.getEmail(),
+                                    LocalDate.now().toString() , orders, Order.ShippingSpeed.RUSH, false);
                             break;
                         case 3:
                             System.out.println("Overnight shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
-                                    Order.ShippingSpeed.OVERNIGHT, false);
+                            order = new Order(user.getFirstName(), user.getLastName(), user.getEmail(),
+                                    LocalDate.now().toString() , orders, Order.ShippingSpeed.OVERNIGHT, false);
                             break;
                         case 4:
                             System.out.println("Digital shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
-                                    Order.ShippingSpeed.DIGITAL, false);
+                            order = new Order(user.getFirstName(), user.getLastName(), user.getEmail(),
+                                    LocalDate.now().toString() , orders, Order.ShippingSpeed.DIGITAL, false);
                             break;
                         default:
                             System.out.println("Invalid input, Standard shipping selected");
                             shippingChoice = 4;
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
-                                    Order.ShippingSpeed.STANDARD, false);
+                            order = new Order(user.getFirstName(), user.getLastName(), user.getEmail(),
+                                    LocalDate.now().toString() , orders, Order.ShippingSpeed.STANDARD, false);
                             break;
                     }
                     // place a new order
@@ -297,7 +304,11 @@ public class MusicFestival {
     }
 
     /**
-     * Author: Nelson Ngo
+     * Displays and handles the employee menu options, including manager-specific functionalities,
+     * allowing employees and managers to interact with the application.
+     *
+     * @param scanner Scanner for reading user input from the console.
+     * @param user The authenticated employee or manager user.
      */
     public static void employeeMenu(Scanner scanner, Employee user) {
         boolean quit = false;
@@ -351,27 +362,19 @@ public class MusicFestival {
                     String firstName = scanner.nextLine();
                     System.out.print("Enter the customer's last name: ");
                     String lastName = scanner.nextLine();
-                    boolean found = false;
-                    // Search shipped orders
-                    List<Order> matchingOrders = new ArrayList<>();
-                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
-                        Order order = shippedOrders.getElement(i);
-                        if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
-                            matchingOrders.add(order);
-                        }
-                    }
-                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
-                        Order order = unshippedOrders.getElement(i);
-                        if (order.getFirstName().equals(firstName) && order.getLastName().equals(lastName)) {
-                            matchingOrders.add(order);
-                        }
-                    }
-                    if (matchingOrders.isEmpty()) {
-                        System.out.println("No orders found for the customer.");
+                    LinkedList<Order> foundOrders = new LinkedList<>();
+                    LinkedList<Order> ordersTrueFlag = user.getOrdersByName(firstName, lastName, customers, true);
+                    LinkedList<Order> ordersFalseFlag = null;
+                    if (ordersTrueFlag != null) {
+                        foundOrders = ordersTrueFlag;
+                        System.out.print(foundOrders);
                     } else {
-                        System.out.println("Found orders for the customer:");
-                        for (Order order : matchingOrders) {
-                            System.out.println(order);
+                        ordersFalseFlag = user.getOrdersByName(firstName, lastName, customers, false);
+                        if (ordersFalseFlag != null) {
+                            foundOrders = ordersFalseFlag;
+                            System.out.print(foundOrders);
+                        } else {
+                            System.out.println("No orders found for the customer.");
                         }
                     }
                     break;

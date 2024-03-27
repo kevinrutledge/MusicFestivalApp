@@ -130,6 +130,7 @@ Electric Daisy Carnival Orlando 2024
 ```bash
 Order ID: <generated order id upon processing data and temporary orders>
 Name: Alex Rivera
+Email: alexrivera@mail.com
 Date Purchased: 2024-03-26
 Music Festivals:
   Name: Coachella Music Festival 2024
@@ -238,6 +239,7 @@ James Brown
 
 Order ID: 100000007
 Name: Stacey Cahill
+Email: thecahills@gmail.com
 Date purchased: 2024-03-13
 Music Festivals:
   Sonic Temple Festival 2024
@@ -259,6 +261,7 @@ James Brown
 
 Order ID: 100000013
 Name: James Brown
+Email: jaime.boy.brown@hotmail.com
 Date Purchased: 2024-03-14
 Music Festivals:
   Name: Bottlerock Napa Valley 2024
@@ -310,6 +313,7 @@ Is Shipped Status: false
 
 Order ID: 100000011
 Name: James Brown
+Email: jaime.boy.brown@hotmail.com
 Date Purchased: 2024-02-14
 Music Festivals:
   Name: Coachella Music Festival 2024
@@ -337,6 +341,7 @@ Is Shipped Status: true
 
 Order ID: 100000017
 Name: James Brown
+Email: jaime.boy.brown@hotmail.com
 Date Purchased: 2024-02-21
 Music Festivals:
   Name: Sick New World 2024

@@ -3,6 +3,19 @@ package main;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Represents a music festival in the Music Festival App.
+ * Each festival has a name, start date, price, location, and lists of genres and featured artists.
+ * Tickets remaining for the festival are also tracked.
+ *
+ * @author: Kevin Rutledge
+ * @author: Heejung Lim
+ * @author: Congcong Ai
+ * @author: Kyle Nguyen
+ * @author: Justin Nguyen
+ * @author: Nelson Ngo
+ * @author: Adnan Abou Kewik
+ */
 public class Festival {
     private String name;
     private String startDate;
@@ -140,18 +153,34 @@ public class Festival {
         this.ticketsRemaining = ticketsRemaining;
     }
 
+    /**
+     * Adds a genre to the festival's list of genres.
+     * @param genre the genre to add
+     */
     public void addGenre(String genre) {
         this.genre.add(genre);
     }
 
+    /**
+     * Removes a genre from the festival's list of genres.
+     * @param genre the genre to remove
+     */
     public void removeGenre(String genre) {
         this.genre.remove(genre);
     }
 
+    /**
+     * Adds an artist to the festival's featured artist lineup.
+     * @param artist the artist to add
+     */
     public void addArtist(String artist) {
         featuredArtistLineup.add(artist);
     }
 
+    /**
+     * Removes an artist from the festival's featured artist lineup.
+     * @param artist the artist to remove
+     */
     public void removeArtist(String artist) {
         featuredArtistLineup.remove(artist);
     }
@@ -178,6 +207,9 @@ public class Festival {
     }
 }
 
+/**
+ * Comparator for sorting festivals by name.
+ */
 class NameComparator implements Comparator<Festival> {
     @Override
     public int compare(Festival festival1, Festival festival2) {
@@ -185,6 +217,9 @@ class NameComparator implements Comparator<Festival> {
     }
 }
 
+/**
+ * Comparator for sorting festivals by the combination of start date and city.
+ */
 class StartDateCityComparator implements Comparator<Festival> {
     @Override
     public int compare(Festival festival1, Festival festival2) {

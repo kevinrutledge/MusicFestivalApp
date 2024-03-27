@@ -4,13 +4,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Helper class for searching and printing festivals.
+ * Provides user interface functionalities for managing festivals within the Music Festival App.
+ * Includes capabilities for searching, displaying, adding, updating, and removing festivals.
+ *
+ * @author: Kevin Rutledge
+ * @author: Heejung Lim
+ * @author: Congcong Ai
+ * @author: Kyle Nguyen
+ * @author: Justin Nguyen
+ * @author: Nelson Ngo
+ * @author: Adnan Abou Kewik
  */
 public class FestivalUi {
 
     private static final NameComparator NAME_COMPARATOR = new NameComparator();
     private static final StartDateCityComparator START_DATE_CITY_COMPARATOR = new StartDateCityComparator();
 
+    /**
+     * Searches for festivals based on user input criteria (name or start date and city).
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @param byName A binary search tree of festivals sorted by name.
+     * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
+     */
     static void searchFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity) {
 
         int choice = -1;
@@ -63,6 +79,13 @@ public class FestivalUi {
         }
     }
 
+    /**
+     * Displays festivals sorted either by name or by start date and city based on user choice.
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @param byName A binary search tree of festivals sorted by name.
+     * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
+     */
     static void displayFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity) {
         int choice = -1;
         while (choice != 3) {
@@ -94,6 +117,14 @@ public class FestivalUi {
         }
     }
 
+    /**
+     * Allows managers to add a new festival to the system after validating user credentials.
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @param byName A binary search tree of festivals sorted by name.
+     * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
+     * @param user The current user attempting to add a festival.
+     */
     static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to add a new festival.");
@@ -152,6 +183,15 @@ public class FestivalUi {
         }
     }
 
+    /**
+     * Allows managers to update existing festivals in the system after validating user credentials.
+     * Updates can include price changes and ticket count adjustments.
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @param byName A binary search tree of festivals sorted by name.
+     * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
+     * @param user The current user attempting to update a festival.
+     */
     static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to update a new festival.");
@@ -215,6 +255,14 @@ public class FestivalUi {
         }
     }
 
+    /**
+     * Allows managers to remove festivals from the system after validating user credentials.
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @param byName A binary search tree of festivals sorted by name.
+     * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
+     * @param user The current user attempting to remove a festival.
+     */
     static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to remove a new festival.");
@@ -256,6 +304,14 @@ public class FestivalUi {
 
     }
 
+    /**
+     * Searches for a festival by name and removes it from both BSTs if found.
+     *
+     * @param festivalName The name of the festival to find and remove.
+     * @param byName The BST sorted by festival name.
+     * @param byStartDateCity The BST sorted by start date and city.
+     * @return The removed Festival object if found, otherwise null.
+     */
     private static Festival findAndRemove(String festivalName, BST<Festival> byName, BST<Festival> byStartDateCity) {
         Festival found = byName.search(new Festival(festivalName), NAME_COMPARATOR);
         if (found != null) {
@@ -265,10 +321,25 @@ public class FestivalUi {
         return found;
     }
 
+    /**
+     * Checks if the given User object is an instance of Employee and if they are a manager.
+     *
+     * @param user The User object to check for manager status.
+     * @return true if the user is an Employee and a manager, false otherwise.
+     */
     private static boolean isManager(User user) {
         return (user instanceof Employee) && ((Employee) user).getIsManager();
     }
 
+    /**
+     * Prompts the user for input and validates it as an integer within a specified range.
+     * It is used to handle menu selections and other numerical inputs that require validation.
+     *
+     * @param validStart The start (inclusive) of the valid input range.
+     * @param validEnd The end (inclusive) of the valid input range.
+     * @param scanner The Scanner object used for input.
+     * @return An integer representing the valid user choice.
+     */
     private static int getValidInput(int validStart, int validEnd, Scanner scanner) {
         while (true) {
             System.out.print("Please enter your choice: ");
