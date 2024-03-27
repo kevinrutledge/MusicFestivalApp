@@ -81,7 +81,13 @@ public abstract class User {
 
     @Override
     public boolean equals(Object obj) {
-        return false;
+        if (obj == null) {
+            return false;
+        } else if (this.getClass() != obj.getClass()) {
+            return false;
+        } else {
+            return hashCode() == obj.hashCode();
+        }
     }
 
     @Override
