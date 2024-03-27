@@ -219,13 +219,15 @@ public class MusicFestival {
                         }
                         Festival searchFestival = new Festival(line);
                         Festival toOrder = festivalsByName.search(searchFestival, NAME_COMPARATOR);
-                        
-                         if (toOrder == null) {
-                            System.out.println("Invalid name");
+
+                        if (toOrder.getTicketsRemaining() == 0) {
+                            System.out.println("\n"+  toOrder.getName() + "is sold out. Please try again.\n");
                             continue;
-                        } else if(toOrder.getTicketsRemaining() == 0) {
-                        	System.out.println("\n"+  toOrder.getName() + " is sold out. Please try again.\n");
-                        	continue;
+                        }
+
+                        if (toOrder == null) {
+                            System.out.println("Invalid name");
+                            break;
                         } else {
                             System.out.println("Festival details:");
                             System.out.println(toOrder.toString());
