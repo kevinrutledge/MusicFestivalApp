@@ -310,9 +310,11 @@ public class MusicFestival {
             System.out.println("3. View Order with Highest Priority");
             System.out.println("4. View All Orders Sorted by Priority");
             System.out.println("5. Ship an Order");
-            System.out.println("6. Add a Festival (Manager Only)");
-            System.out.println("7. Update a Festival (Manager Only)");
-            System.out.println("8. Remove a Festival (Manager Only)");
+            if (user.getIsManager()) {
+                System.out.println("6. Add a Festival (Manager Only)");
+                System.out.println("7. Update a Festival (Manager Only)");
+                System.out.println("8. Remove a Festival (Manager Only)");    
+            }
             System.out.println("9. Quit and Write to a File");
             System.out.print("Your Choice: ");
 
