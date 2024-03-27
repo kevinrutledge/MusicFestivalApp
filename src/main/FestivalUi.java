@@ -1,5 +1,7 @@
 package main;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -178,6 +180,22 @@ public class FestivalUi {
             System.out.println(newFestival);
             System.out.println("Moving back to the previous menu.");
             System.out.println();
+            
+            //Write to festivals.txt
+            try (FileWriter writer = new FileWriter("festivals.txt", true)) {
+                writer.write("\n" + newFestival.getName() + "\n");
+                writer.write(newFestival.getDate() + "\n");
+                writer.write(newFestival.getPrice() + "\n");
+                writer.write(newFestival.getLocation() + "\n");
+                writer.write(newFestival.getState() + "\n");
+                writer.write(newFestival.getTicketsRemaining() + "\n");
+                writer.write(newFestival.getGenre().size() + "\n");
+                writer.write(String.join("\n", newFestival.getGenre()) + "\n");
+                writer.write(newFestival.getArtistLineup().size() + "\n");
+                writer.write(String.join("\n", newFestival.getArtistLineup()) + "\n\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("USER AUTHENTICATION FAILED. You are not authorized to add a festival.");
         }
