@@ -97,7 +97,8 @@ public class FestivalUi {
     static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to add a new festival.");
-
+            System.out.println("Press enter to continue: ");
+            scanner.nextLine();
             System.out.println("Enter the name of the festival: ");
             String name = scanner.nextLine();
 
@@ -139,6 +140,13 @@ public class FestivalUi {
 
             byName.insert(newFestival, NAME_COMPARATOR);
             byStartDateCity.insert(newFestival, START_DATE_CITY_COMPARATOR);
+            System.out.println();
+            System.out.println("Festival added successfully!");
+            System.out.println("Here is the information of the festival: ");
+            System.out.println();
+            System.out.println(newFestival);
+            System.out.println("Moving back to the previous menu.");
+            System.out.println();
         } else {
             System.out.println("USER AUTHENTICATION FAILED. You are not authorized to add a festival.");
         }
@@ -213,13 +221,20 @@ public class FestivalUi {
             boolean found = false;
 
             while (!found) {
+                System.out.println("Press enter to continue: ");
+                scanner.nextLine();
+                System.out.println("Here is the current festival.");
+                System.out.println();
+                System.out.println(byName.inOrderString());
+                System.out.println();
                 System.out.println("Enter the name of the festival you would like to remove: ");
                 String name = scanner.nextLine();
 
                 Festival removed = findAndRemove(name, byName, byStartDateCity);
 
                 if (removed != null) {
-                    System.out.println("Festival was sucessfully removed.");
+                    System.out.println("Festival was sucessfully removed. Moving back to the previous menu.");
+                    System.out.println();
                     found = true;
                     continue;
                 } else {
