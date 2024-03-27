@@ -10,7 +10,13 @@ import java.util.*;
  * It handles user authentication, displays menus based on user roles, and
  * allows for managing festivals, orders, and user information.
  *
- * Author: [Your Name or Team Name]
+ * @author: Kevin Rutledge
+ * @author: Heejung Lim
+ * @author: Congcong Ai
+ * @author: Kyle Nguyen
+ * @author: Justin Nguyen
+ * @author: Nelson Ngo
+ * @author: Adnan Abou Kewik
  */
 public class MusicFestival {
     // Static data structures for the application
