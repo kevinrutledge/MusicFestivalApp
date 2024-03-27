@@ -384,6 +384,7 @@ public class MusicFestival {
                     break;
                 case 3: // View Order with Highest Priority
                     Order highestPriorityOrder = null;
+                    // TODO - should we only show unshipped orders?
                     for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
                         Order order = shippedOrders.getElement(i);
                         if (highestPriorityOrder == null
@@ -407,6 +408,7 @@ public class MusicFestival {
                 case 4: // View All Orders Sorted by Priority
                     ArrayList<Order> allOrders = new ArrayList<>();
                     // Add shipped orders to the list
+                    // TODO - should we only show unshipped orders?
                     for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
                         allOrders.add(shippedOrders.getElement(i));
                     }
@@ -441,6 +443,14 @@ public class MusicFestival {
                         if (order.getOrderID().equalsIgnoreCase(orderID1)) {
                             order.setIsShipped(true);
                             orderShipped = true;
+                            unshippedOrders.remove(i);
+                            shippedOrders.insert(order);
+                            String email = order.getEmail();
+                            User placeholderCustomer = new Customer(email);
+                            Customer customer = (Customer) users.get(placeholderCustomer);
+                            if (customer != null) {
+                                customer.shipOrder(order);
+                            }
                             System.out.println("Order shipped successfully.");
                         }
                     }
@@ -463,6 +473,46 @@ public class MusicFestival {
                     // Code to write to file goes here
                     System.out.println("Writing to file and quitting...");
                     quit = true;
+
+                    // need to get orders sorted by orderID
+                    ArrayList<Order> orders = new ArrayList<>();
+
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        orders.add(shippedOrders.getElement(i));
+                    }
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                        orders.add(unshippedOrders.getElement(i));
+                    }
+
+                    orders.sort(new OrderIdComparator());
+                    try (FileWriter writer = new FileWriter("orders.txt", false)) {
+                        writer.write("");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < orders.size(); i++) {
+                        Order order = orders.get(i);
+                        try (FileWriter writer = new FileWriter("orders.txt", true)) {
+                            writer.write(order.getFirstName() + " " + order.getLastName() + "\n");
+                            writer.write(order.getEmail() + "\n");
+                            writer.write(order.getDatePurchased() + "\n");
+                            LinkedList<Festival> contents = order.getOrderContents();
+                            writer.write(contents.getLength() + "\n");
+                            contents.positionIterator();
+                            while (!contents.offEnd()) {
+                                writer.write(contents.getIterator().getName() + "\n");
+                                contents.advanceIterator();
+                            }
+                            writer.write(order.getIsShipped() + "\n");
+                            writer.write(order.getShippingSpeed().getShippingCode() + "\n");
+                            if (i != orders.size() - 1) {
+                                writer.write("\n");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+            }
+
                     break;
                 default:
                     System.out.println("Invalid input");

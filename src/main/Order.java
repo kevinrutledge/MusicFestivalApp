@@ -111,6 +111,10 @@ public class Order {
         return lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getDatePurchased() {
         return datePurchased;
     }
