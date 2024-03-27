@@ -1,6 +1,7 @@
 package main;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 import main.Order.ShippingSpeed;
@@ -227,32 +228,33 @@ public class MusicFestival {
                     System.out.println("4. Digital shipping ");
                     System.out.print("Enter value for shipping: ");
                     shippingChoice = scanner.nextInt();
+                    System.out.println();
                     scanner.nextLine();
                     switch (shippingChoice) {
                         case 1:
                             System.out.println("Standard shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                            order = new Order(user.getFirstName(), user.getLastName(), LocalDate.now().toString(), orders,
                                     Order.ShippingSpeed.STANDARD, false);
                             break;
                         case 2:
                             System.out.println("Rush shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                            order = new Order(user.getFirstName(), user.getLastName(), LocalDate.now().toString(), orders,
                                     Order.ShippingSpeed.RUSH, false);
                             break;
                         case 3:
                             System.out.println("Overnight shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                            order = new Order(user.getFirstName(), user.getLastName(), LocalDate.now().toString(), orders,
                                     Order.ShippingSpeed.OVERNIGHT, false);
                             break;
                         case 4:
                             System.out.println("Digital shipping selected");
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                            order = new Order(user.getFirstName(), user.getLastName(), LocalDate.now().toString(), orders,
                                     Order.ShippingSpeed.DIGITAL, false);
                             break;
                         default:
                             System.out.println("Invalid input, Standard shipping selected");
                             shippingChoice = 4;
-                            order = new Order(user.getFirstName(), user.getLastName(), "3-28-2024", orders,
+                            order = new Order(user.getFirstName(), user.getLastName(), LocalDate.now().toString(), orders,
                                     Order.ShippingSpeed.STANDARD, false);
                             break;
                     }
