@@ -104,7 +104,6 @@ public class MusicFestival {
                     customers.addLast((Customer) user);
                     // writes new account to users.txt
                     try (FileWriter writer = new FileWriter("users.txt", true)) {
-                        writer.write("\n");
                         writer.write(firstName + " " + lastName + "\n");
                         writer.write(email + "\n");
                         writer.write(password + "\n");
