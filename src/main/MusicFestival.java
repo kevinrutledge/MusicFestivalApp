@@ -36,7 +36,6 @@ public class MusicFestival {
         // Load data from files
         DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
         DataLoader.populateUsers(users, employees, customers);
-        DataLoader.authenticateUsers(scanner);
         DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customers);
 
         System.out.println("Welcome to MusicFestivalApp\n");
@@ -499,16 +498,12 @@ public class MusicFestival {
 
                     orders.sort(new OrderIdComparator());
                     try (FileWriter writer = new FileWriter("orders.txt", false)) {
-                        writer.write("");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 0; i < orders.size(); i++) {
-                        Order order = orders.get(i);
-                        try (FileWriter writer = new FileWriter("orders.txt", true)) {
+                        for (int i = 0; i < orders.size(); i++) {
+                            Order order = orders.get(i);
                             writer.write(order.getFirstName() + " " + order.getLastName() + "\n");
                             writer.write(order.getEmail() + "\n");
                             writer.write(order.getDatePurchased() + "\n");
+
                             LinkedList<Festival> contents = order.getOrderContents();
                             writer.write(contents.getLength() + "\n");
                             contents.positionIterator();
@@ -516,16 +511,16 @@ public class MusicFestival {
                                 writer.write(contents.getIterator().getName() + "\n");
                                 contents.advanceIterator();
                             }
+
                             writer.write(order.getIsShipped() + "\n");
                             writer.write(order.getShippingSpeed().getShippingCode() + "\n");
                             if (i != orders.size() - 1) {
                                 writer.write("\n");
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-            }
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     System.out.println("Invalid input");
