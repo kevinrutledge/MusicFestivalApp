@@ -23,7 +23,8 @@ public class DataLoader {
      * @param festivalsByName A BST to populate with festivals sorted by name.
      * @param festivalsByStartDateCity A BST to populate with festivals sorted by start date and city.
      */
-    static void populateFestivals(BST<Festival> festivalsByName, BST<Festival> festivalsByStartDateCity) {
+    static void populateFestivals(BST<Festival> festivalsByName, BST<Festival> festivalsByStartDateCity,
+                                  ArrayList<Festival> festivalArrayList) {
         try {
             Scanner scanner = new Scanner(new File("festivals.txt"));
             NameComparator nameComparator = new NameComparator();
@@ -51,6 +52,7 @@ public class DataLoader {
                 Festival festival = new Festival(name, startDate, price, city, state, ticketsRemaining, genre, artists);
                 festivalsByName.insert(festival, nameComparator);
                 festivalsByStartDateCity.insert(festival, startDateCityComparator);
+                festivalArrayList.add(festival);
                 // consume white space.
                 if (scanner.hasNextLine()) {
                     scanner.nextLine();

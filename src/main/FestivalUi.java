@@ -127,7 +127,8 @@ public class FestivalUi {
      * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
      * @param user The current user attempting to add a festival.
      */
-    static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+    static void addFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity,
+                            ArrayList<Festival> festivalArrayList, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to add a new festival.");
             System.out.println("Press enter to continue: ");
@@ -173,6 +174,8 @@ public class FestivalUi {
 
             byName.insert(newFestival, NAME_COMPARATOR);
             byStartDateCity.insert(newFestival, START_DATE_CITY_COMPARATOR);
+            festivalArrayList.add(newFestival);
+
             System.out.println();
             System.out.println("Festival added successfully!");
             System.out.println("Here is the information of the festival: ");
@@ -180,24 +183,31 @@ public class FestivalUi {
             System.out.println(newFestival);
             System.out.println("Moving back to the previous menu.");
             System.out.println();
-            
-            //Write to festivals.txt
-            try (FileWriter writer = new FileWriter("festivals.txt", true)) {
-                writer.write("\n" + newFestival.getName() + "\n");
-                writer.write(newFestival.getDate() + "\n");
-                writer.write(newFestival.getPrice() + "\n");
-                writer.write(newFestival.getLocation() + "\n");
-                writer.write(newFestival.getState() + "\n");
-                writer.write(newFestival.getTicketsRemaining() + "\n");
-                writer.write(newFestival.getGenre().size() + "\n");
-                writer.write(String.join("\n", newFestival.getGenre()) + "\n");
-                writer.write(newFestival.getArtistLineup().size() + "\n");
-                writer.write(String.join("\n", newFestival.getArtistLineup()) + "\n\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            writeToFile(festivalArrayList);
         } else {
             System.out.println("USER AUTHENTICATION FAILED. You are not authorized to add a festival.");
+        }
+    }
+
+    private static void writeToFile(ArrayList<Festival> festivals) {
+        //Write to festivals.txt
+        try (FileWriter writer = new FileWriter("festivals.txt", false)) {
+            for(int i = 0; i < festivals.size(); i++) {
+                Festival festival = festivals.get(i);
+                writer.write("\n" + festival.getName() + "\n");
+                writer.write(festival.getDate() + "\n");
+                writer.write(festival.getPrice() + "\n");
+                writer.write(festival.getLocation() + "\n");
+                writer.write(festival.getState() + "\n");
+                writer.write(festival.getTicketsRemaining() + "\n");
+                writer.write(festival.getGenre().size() + "\n");
+                writer.write(String.join("\n", festival.getGenre()) + "\n");
+                writer.write(festival.getArtistLineup().size() + "\n");
+                writer.write(String.join("\n", festival.getArtistLineup()) + "\n\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -210,7 +220,8 @@ public class FestivalUi {
      * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
      * @param user The current user attempting to update a festival.
      */
-    static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+    static void updateFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity,
+                               ArrayList<Festival> festivalArrayList, User user) {
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to update a new festival.");
             System.out.println("Press enter to continue: ");
@@ -228,6 +239,7 @@ public class FestivalUi {
                 if (removed == null) {
                     System.out.println("Festival not found. Please try again.");
                 } else {
+                    festivalArrayList.remove(removed);
                     System.out.println("What would you like to update?");
                     System.out.println("1. Update price of the festival");
                     System.out.println("2. Update remaining ticket count of the festival");
@@ -243,6 +255,7 @@ public class FestivalUi {
                             Festival newFestivalWithPrice = new Festival(removed, price);
                             byName.insert(newFestivalWithPrice, NAME_COMPARATOR);
                             byStartDateCity.insert(newFestivalWithPrice, START_DATE_CITY_COMPARATOR);
+                            festivalArrayList.add(newFestivalWithPrice);
                             System.out.println("Price update completed! Moving back to the previous menu.");
                             input = 3;
                             break;
@@ -255,6 +268,7 @@ public class FestivalUi {
                             Festival newFestivalWithCount = new Festival(removed, count);
                             byName.insert(newFestivalWithCount, NAME_COMPARATOR);
                             byStartDateCity.insert(newFestivalWithCount, START_DATE_CITY_COMPARATOR);
+                            festivalArrayList.add(newFestivalWithCount);
                             System.out.println("Ticket count update completed! Moving back to the previous menu.");
                             input = 3;
                             break;
@@ -265,6 +279,7 @@ public class FestivalUi {
                             System.out.println("Invalid choice. Please enter 1 or 2.");
                             break;
                     }
+                    writeToFile(festivalArrayList);
                 }
             }
 
@@ -281,7 +296,9 @@ public class FestivalUi {
      * @param byStartDateCity A binary search tree of festivals sorted by start date and city.
      * @param user The current user attempting to remove a festival.
      */
-    static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity, User user) {
+    static void removeFestival(Scanner scanner, BST<Festival> byName, BST<Festival> byStartDateCity,
+                               ArrayList<Festival> festivalArrayList, User user) {
+
         if (isManager(user)) {
             System.out.println("USER AUTHENTICATED. You are authorized to remove a new festival.");
             boolean found = false;
@@ -299,6 +316,8 @@ public class FestivalUi {
                 Festival removed = findAndRemove(name, byName, byStartDateCity);
 
                 if (removed != null) {
+                    festivalArrayList.remove(removed);
+                    writeToFile(festivalArrayList);
                     System.out.println("Festival was sucessfully removed. Moving back to the previous menu.");
                     System.out.println();
                     found = true;

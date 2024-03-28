@@ -22,6 +22,7 @@ public class MusicFestival {
     // Static data structures for the application
     private static BST<Festival> festivalsByName = new BST<>(); // BST for storing by name
     private static BST<Festival> festivalsByStartDateCity = new BST<>(); // BST for storing by start date and city
+    private static ArrayList<Festival> festivalArrayList = new ArrayList<>(); // Array list for saving
     private static HashTable<User> users = new HashTable<>(100); // HashTable for storing all users
     private static HashTable<User> employees = new HashTable<>(100); // HashTable for storing employees
     private static LinkedList<Customer> customers = new LinkedList<>(); // LinkedList for storing customer data
@@ -34,7 +35,7 @@ public class MusicFestival {
         Scanner scanner = new Scanner(System.in);
 
         // Load data from files
-        DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity);
+        DataLoader.populateFestivals(festivalsByName, festivalsByStartDateCity, festivalArrayList);
         DataLoader.populateUsers(users, employees, customers);
         DataLoader.authenticateUsers(scanner);
         DataLoader.populateOrders(shippedOrders, unshippedOrders, festivalsByName, customers);
@@ -473,13 +474,13 @@ public class MusicFestival {
                     }
                     break;
                 case 6:
-                    FestivalUi.addFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    FestivalUi.addFestival(scanner, festivalsByName, festivalsByStartDateCity, festivalArrayList, user);
                     break;
                 case 7:
-                    FestivalUi.updateFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    FestivalUi.updateFestival(scanner, festivalsByName, festivalsByStartDateCity, festivalArrayList, user);
                     break;
                 case 8:
-                    FestivalUi.removeFestival(scanner, festivalsByName, festivalsByStartDateCity, user);
+                    FestivalUi.removeFestival(scanner, festivalsByName, festivalsByStartDateCity, festivalArrayList, user);
                     break;
                 case 9:
                     // Quit and Write to a File
