@@ -109,20 +109,16 @@ public class MusicFestival {
                     users.add(user);
                     customers.addLast((Customer) user);
                     // writes new account to users.txt
-                    try (FileWriter writer = new FileWriter("users.txt", false)) {
-                        customers.positionIterator();
-                        while(!customers.offEnd()) {
-                            Customer customer = customers.getIterator();
-                            writer.write(customer.getFirstName() + " " + customer.getLastName() + "\n");
-                            writer.write(customer.getEmail() + "\n");
-                            writer.write(customer.password + "\n");
-                            writer.write(customer.getIsEmployee() + "\n");
-                            writer.write(customer.getAddress() + "\n");
-                            writer.write(customer.getCity() + "\n");
-                            writer.write(customer.getState() + "\n");
-                            writer.write(customer.getZip() + "\n" + "\n");
-                            customers.advanceIterator();
-                        }
+                    try (FileWriter writer = new FileWriter("users.txt", true)) {
+                        writer.write("\n");
+                        writer.write(user.getFirstName() + " " + user.getLastName() + "\n");
+                        writer.write(user.getEmail() + "\n");
+                        writer.write(user.password + "\n");
+                        writer.write(user.getIsEmployee() + "\n");
+                        writer.write(((Customer) user).getAddress() + "\n");
+                        writer.write(((Customer) user).getCity() + "\n");
+                        writer.write(((Customer) user).getState() + "\n");
+                        writer.write(((Customer) user).getZip() + "\n");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -284,20 +280,14 @@ public class MusicFestival {
                     System.out.println("Order placed for:");
                     System.out.println(orders.toString());
                     // write new order to file
-                    try (FileWriter writer = new FileWriter("orders.txt", true)) {
-                        writer.write(user.getFirstName() + " " + user.getLastName() + "\n");
-                        writer.write("3-28-2024\n");
-                        writer.write(orders.getLength() + "\n");
-                        orders.positionIterator();
-                        for (int i = 0; i < orders.getLength(); i++) {
-                            orders.advanceIteratorToIndex(i);
-                            writer.write(orders.getIterator().getName() + "\n");
-                        }
-                        writer.write("false\n");
-                        writer.write(shippingChoice + "\n" + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    ArrayList<Order> ordersArrayList = new ArrayList<>();
+                    for (int i = 1; i <= shippedOrders.getHeapSize(); i++) {
+                        ordersArrayList.add(shippedOrders.getElement(i));
                     }
+                    for (int i = 1; i <= unshippedOrders.getHeapSize(); i++) {
+                        ordersArrayList.add(unshippedOrders.getElement(i));
+                    }
+                    writeOrdersToFile(ordersArrayList);
                     break;
                 case 4: // view purchase for non-guests only
                     if (((User) user).getEmail().equals("guest@email.com")) {
@@ -501,36 +491,40 @@ public class MusicFestival {
                         orders.add(unshippedOrders.getElement(i));
                     }
 
-                    orders.sort(new OrderIdComparator());
-                    try (FileWriter writer = new FileWriter("orders.txt", false)) {
-                        for (int i = 0; i < orders.size(); i++) {
-                            Order order = orders.get(i);
-                            writer.write(order.getFirstName() + " " + order.getLastName() + "\n");
-                            writer.write(order.getEmail() + "\n");
-                            writer.write(order.getDatePurchased() + "\n");
-
-                            LinkedList<Festival> contents = order.getOrderContents();
-                            writer.write(contents.getLength() + "\n");
-                            contents.positionIterator();
-                            while (!contents.offEnd()) {
-                                writer.write(contents.getIterator().getName() + "\n");
-                                contents.advanceIterator();
-                            }
-
-                            writer.write(order.getIsShipped() + "\n");
-                            writer.write(order.getShippingSpeed().getShippingCode() + "\n");
-                            if (i != orders.size() - 1) {
-                                writer.write("\n");
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    writeOrdersToFile(orders);
                     break;
                 default:
                     System.out.println("Invalid input");
                     break;
             }
         } while (!quit);
+    }
+
+    private static void writeOrdersToFile(ArrayList<Order> orders) {
+        orders.sort(new OrderIdComparator());
+        try (FileWriter writer = new FileWriter("orders.txt", false)) {
+            for (int i = 0; i < orders.size(); i++) {
+                Order order = orders.get(i);
+                writer.write(order.getFirstName() + " " + order.getLastName() + "\n");
+                writer.write(order.getEmail() + "\n");
+                writer.write(order.getDatePurchased() + "\n");
+
+                LinkedList<Festival> contents = order.getOrderContents();
+                writer.write(contents.getLength() + "\n");
+                contents.positionIterator();
+                while (!contents.offEnd()) {
+                    writer.write(contents.getIterator().getName() + "\n");
+                    contents.advanceIterator();
+                }
+
+                writer.write(order.getIsShipped() + "\n");
+                writer.write(order.getShippingSpeed().getShippingCode() + "\n");
+                if (i != orders.size() - 1) {
+                    writer.write("\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
