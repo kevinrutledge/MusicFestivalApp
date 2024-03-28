@@ -109,15 +109,20 @@ public class MusicFestival {
                     users.add(user);
                     customers.addLast((Customer) user);
                     // writes new account to users.txt
-                    try (FileWriter writer = new FileWriter("users.txt", true)) {
-                        writer.write(firstName + " " + lastName + "\n");
-                        writer.write(email + "\n");
-                        writer.write(password + "\n");
-                        writer.write("false\n");
-                        writer.write(address + "\n");
-                        writer.write(city + "\n");
-                        writer.write(state + "\n");
-                        writer.write(zip + "\n" + "\n");
+                    try (FileWriter writer = new FileWriter("users.txt", false)) {
+                        customers.positionIterator();
+                        while(!customers.offEnd()) {
+                            Customer customer = customers.getIterator();
+                            writer.write(customer.getFirstName() + " " + customer.getLastName() + "\n");
+                            writer.write(customer.getEmail() + "\n");
+                            writer.write(customer.password + "\n");
+                            writer.write(customer.getIsEmployee() + "\n");
+                            writer.write(customer.getAddress() + "\n");
+                            writer.write(customer.getCity() + "\n");
+                            writer.write(customer.getState() + "\n");
+                            writer.write(customer.getZip() + "\n" + "\n");
+                            customers.advanceIterator();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
