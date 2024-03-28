@@ -113,10 +113,6 @@ public class DataLoader {
         }
     }
 
-    static void authenticateUsers(Scanner scanner) {
-        // Authenticate users based on loaded data
-    }
-
     /**
      * Reads order data from a file and populates two heaps, one for shipped orders
      * and another for unshipped orders, as well as updating customer records with their orders.
