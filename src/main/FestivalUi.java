@@ -174,7 +174,7 @@ public class FestivalUi {
 
             byName.insert(newFestival, NAME_COMPARATOR);
             byStartDateCity.insert(newFestival, START_DATE_CITY_COMPARATOR);
-            festivalArrayList.add(newFestival);
+            festivalArrayList.addFirst(newFestival);
             writeToFile(festivalArrayList);
 
             System.out.println();
@@ -254,7 +254,7 @@ public class FestivalUi {
                             Festival newFestivalWithPrice = new Festival(removed, price);
                             byName.insert(newFestivalWithPrice, NAME_COMPARATOR);
                             byStartDateCity.insert(newFestivalWithPrice, START_DATE_CITY_COMPARATOR);
-                            festivalArrayList.add(newFestivalWithPrice);
+                            festivalArrayList.addFirst(newFestivalWithPrice);
                             System.out.println("Price update completed! Moving back to the previous menu.");
                             input = 3;
                             break;
@@ -267,7 +267,7 @@ public class FestivalUi {
                             Festival newFestivalWithCount = new Festival(removed, count);
                             byName.insert(newFestivalWithCount, NAME_COMPARATOR);
                             byStartDateCity.insert(newFestivalWithCount, START_DATE_CITY_COMPARATOR);
-                            festivalArrayList.add(newFestivalWithCount);
+                            festivalArrayList.addFirst(newFestivalWithCount);
                             System.out.println("Ticket count update completed! Moving back to the previous menu.");
                             input = 3;
                             break;
