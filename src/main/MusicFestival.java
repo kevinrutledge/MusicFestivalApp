@@ -346,8 +346,12 @@ public class MusicFestival {
             System.out.println("9. Quit and Write to a File");
             System.out.print("Your Choice: ");
 
-            menuChoice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                menuChoice = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                menuChoice = -1;
+            }
             switch (menuChoice) {
                 case 1: // Search for an Order by ID
                     System.out.print("Enter the order ID to search: ");

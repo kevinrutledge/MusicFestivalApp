@@ -175,6 +175,7 @@ public class FestivalUi {
             byName.insert(newFestival, NAME_COMPARATOR);
             byStartDateCity.insert(newFestival, START_DATE_CITY_COMPARATOR);
             festivalArrayList.add(newFestival);
+            writeToFile(festivalArrayList);
 
             System.out.println();
             System.out.println("Festival added successfully!");
@@ -183,8 +184,6 @@ public class FestivalUi {
             System.out.println(newFestival);
             System.out.println("Moving back to the previous menu.");
             System.out.println();
-
-            writeToFile(festivalArrayList);
         } else {
             System.out.println("USER AUTHENTICATION FAILED. You are not authorized to add a festival.");
         }
@@ -195,7 +194,7 @@ public class FestivalUi {
         try (FileWriter writer = new FileWriter("festivals.txt", false)) {
             for(int i = 0; i < festivals.size(); i++) {
                 Festival festival = festivals.get(i);
-                writer.write("\n" + festival.getName() + "\n");
+                writer.write(festival.getName() + "\n");
                 writer.write(festival.getDate() + "\n");
                 writer.write(festival.getPrice() + "\n");
                 writer.write(festival.getLocation() + "\n");
