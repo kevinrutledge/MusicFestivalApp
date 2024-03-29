@@ -34,4 +34,4 @@ This project is the culmination of efforts from a dedicated team of developers w
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/kevinrutledge/MusicalFestivalApp/blob/main/LICENSE) file for details.
