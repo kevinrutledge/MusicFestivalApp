@@ -4,7 +4,6 @@
 
 The Music Festival Management System is a comprehensive Java-based application designed to simplify and automate the operations of managing music festivals. It encompasses functionalities ranging from ticket ordering, customer and employee management, to data loading and user interface interactions, making it a robust solution for festival organizers.
 
-
 ## Features
 
 - **Order Management:** Handles all aspects related to ticket orders, including creation, modification, and tracking of orders.
